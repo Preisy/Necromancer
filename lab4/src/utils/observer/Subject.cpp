@@ -14,3 +14,5 @@ void Subject::notify() {
         it->update();
     }
 }
+
+Subject::~Subject() = default;

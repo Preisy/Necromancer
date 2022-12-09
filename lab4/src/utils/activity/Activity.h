@@ -1,0 +1,14 @@
+#pragma once
+
+#include <SFML/Graphics.hpp>
+
+class Activity {
+public:
+    virtual void handleEvent(sf::Event& event) = 0;
+
+    virtual void update(float time) = 0;
+
+    virtual void draw(float time) = 0;
+
+    virtual ~Activity() = default;
+};

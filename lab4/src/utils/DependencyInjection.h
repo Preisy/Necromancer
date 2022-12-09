@@ -8,17 +8,21 @@ class Factory;
 template<>                            \
 class Factory<Class> {                \
     class FactorySingleton {          \
-        static inline Class* inst = nullptr; \
+        Class data = Class(__VA_ARGS__); \
+                                      \
+        static inline FactorySingleton* inst = nullptr; \
         FactorySingleton() = default;               \
-        FactorySingleton(const FactorySingleton &) = default;\
+        FactorySingleton(const FactorySingleton &) = delete; \
+        FactorySingleton& operator=(const FactorySingleton &) = delete; \
+        friend class Factory;\
     public:\
-        static Class* getInstance() {\
-            if (inst == nullptr) inst = new Class(__VA_ARGS__); \
+        static FactorySingleton* getInstance() {\
+            if (inst == nullptr) inst = new FactorySingleton(); \
             return inst;\
         } \
     };                                 \
 public:                               \
-    Class* inst = FactorySingleton::getInstance();                                       \
+    Class* inst = &FactorySingleton::getInstance()->data;                                       \
 };                                    \
 
 #define injectAsRuntime(Class) \
