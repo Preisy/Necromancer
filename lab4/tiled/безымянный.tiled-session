@@ -1,0 +1,49 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "32x32_tiles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field1.xml": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 510,
+                "y": 401.5
+            }
+        },
+        "Dragonheart.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        },
+        "TilesNew-export.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 3
+        }
+    },
+    "last.externalTilesetPath": "D:/C/3sem_cpp/informatics/lab4/tiled",
+    "last.imagePath": "C:/Users/preus/Downloads",
+    "map.height": 25,
+    "map.lastUsedFormat": "tmx",
+    "map.width": 30,
+    "openFiles": [
+        "Dragonheart.tsx"
+    ],
+    "project": "безымянный.tiled-project",
+    "recentFiles": [
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field1.xml",
+        "Dragonheart.tsx",
+        "32x32_tiles.tsx",
+        "TilesNew-export.tsx"
+    ],
+    "tileset.lastUsedFilter": "Файлы набора тайлов Tiled (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx"
+}

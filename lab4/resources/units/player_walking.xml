@@ -1,0 +1,55 @@
+<!DOCTYPE SpriteDecomposer>
+<sprites image="player.png" transparentColor="">
+ <animation title="walk_w" delay="100">
+  <cut w="32" x="80" y="9" h="52" row="1" col="1"/>
+  <cut w="32" x="144" y="9" h="53" row="1" col="1"/>
+  <cut w="31" x="208" y="10" h="53" row="1" col="1"/>
+  <cut w="32" x="272" y="9" h="54" row="1" col="1"/>
+  <cut w="32" x="336" y="9" h="52" row="1" col="1"/>
+  <cut w="32" x="400" y="9" h="53" row="1" col="1"/>
+  <cut w="31" x="465" y="10" h="53" row="1" col="1"/>
+  <cut w="32" x="528" y="9" h="54" row="1" col="1"/>
+ </animation>
+ <animation title="walk_s" delay="150">
+  <cut w="32" x="80" y="137" h="53" row="1" col="1"/>
+  <cut w="32" x="144" y="137" h="54" row="1" col="1"/>
+  <cut w="31" x="209" y="138" h="53" row="1" col="1"/>
+  <cut w="32" x="272" y="137" h="54" row="1" col="1"/>
+  <cut w="32" x="336" y="137" h="53" row="1" col="1"/>
+  <cut w="32" x="400" y="137" h="54" row="1" col="1"/>
+  <cut w="31" x="464" y="138" h="53" row="1" col="1"/>
+  <cut w="32" x="528" y="137" h="54" row="1" col="1"/>
+ </animation>
+ <animation title="walk_a" delay="150">
+  <cut w="30" x="81" y="74" h="52" row="1" col="1"/>
+  <cut w="30" x="145" y="73" h="52" row="1" col="1"/>
+  <cut w="30" x="209" y="73" h="52" row="1" col="1"/>
+  <cut w="30" x="273" y="73" h="53" row="1" col="1"/>
+  <cut w="31" x="337" y="74" h="52" row="1" col="1"/>
+  <cut w="30" x="401" y="73" h="53" row="1" col="1"/>
+  <cut w="30" x="465" y="73" h="53" row="1" col="1"/>
+  <cut w="30" x="529" y="73" h="53" row="1" col="1"/>
+ </animation>
+ <animation title="stay_w" delay="150">
+  <cut w="32" x="16" y="9" h="52" row="1" col="1"/>
+ </animation>
+ <animation title="stay_a" delay="150">
+  <cut w="30" x="17" y="73" h="53" row="1" col="1"/>
+ </animation>
+ <animation title="stay_s" delay="150">
+  <cut w="32" x="16" y="137" h="53" row="1" col="1"/>
+ </animation>
+ <animation title="walk_d" delay="150">
+  <cut w="30" x="81" y="202" h="52" row="1" col="1"/>
+  <cut w="30" x="145" y="201" h="52" row="1" col="1"/>
+  <cut w="29" x="210" y="201" h="52" row="1" col="1"/>
+  <cut w="30" x="273" y="201" h="53" row="1" col="1"/>
+  <cut w="31" x="336" y="202" h="52" row="1" col="1"/>
+  <cut w="30" x="401" y="201" h="53" row="1" col="1"/>
+  <cut w="30" x="465" y="201" h="53" row="1" col="1"/>
+  <cut w="30" x="529" y="201" h="53" row="1" col="1"/>
+ </animation>
+ <animation title="stay_d" delay="150">
+  <cut w="30" x="17" y="201" h="53" row="1" col="1"/>
+ </animation>
+</sprites>

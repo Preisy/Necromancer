@@ -5,10 +5,10 @@
 
 #include "utils/observer/Subject.h"
 //#include "utils/Repository.h"
-#include "FieldEntity.h"
+#include "FieldModel.h"
 
-class LevelEntity : public Subject {
-    std::vector<std::shared_ptr<FieldEntity>> fields;
+class LevelModel {
+    std::vector<std::shared_ptr<FieldModel>> fields;
 
 public:
     // todo в interactor
@@ -28,7 +28,7 @@ public:
 //    }
 
     [[nodiscard]]
-    const std::vector<std::shared_ptr<FieldEntity>> & getFields() const {
+    const std::vector<std::shared_ptr<FieldModel>> & getFields() const {
         return fields;
     }
 };
