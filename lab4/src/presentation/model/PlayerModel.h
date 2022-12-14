@@ -39,6 +39,9 @@ public:
         for (const auto & object: objects) {
             if (!rect.intersects(object.rect)) continue;
 
+            if (dy < 0) {
+                int a = 0;
+            }
             if (dir == 0 && dx > 0
                 && rect.left < object.rect.left
                 && rect.left + rect.width > object.rect.left
@@ -59,7 +62,7 @@ public:
                 break;
             } else if (dir == 1 && dy < 0
                        && rect.top < object.rect.top + object.rect.height
-                       && rect.top + rect.height > object.rect.height
+                       && rect.top + rect.height > object.rect.top
                     ) {
                 coords.y = object.rect.top + object.rect.height - sizeReduction.y;
                 break;
