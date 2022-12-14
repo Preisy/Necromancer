@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="62">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="63">
  <tileset firstgid="1" source="../../../tiled/PathAndObjects.tsx"/>
  <layer id="1" name="Слой тайлов 1" width="30" height="25">
   <data>
@@ -2264,11 +2264,15 @@
   </data>
  </layer>
  <objectgroup id="5" name="Слой объектов 1">
-  <object id="15" name="field2" x="246" y="765" width="51" height="49"/>
+  <object id="15" name="field" x="238" y="787.667" width="69" height="15">
+   <properties>
+    <property name="fieldId" value="2"/>
+   </properties>
+  </object>
   <object id="19" name="human" x="209" y="407">
    <point/>
   </object>
-  <object id="21" name="player" x="268" y="676">
+  <object id="21" name="player" x="258.667" y="716">
    <point/>
   </object>
   <object id="23" name="solid" x="160" y="69" width="546" height="89"/>
@@ -2302,5 +2306,6 @@
   <object id="59" name="solid" x="795" y="636.5" width="210" height="33"/>
   <object id="60" name="solid" x="829" y="565.5" width="34" height="76"/>
   <object id="61" name="solid" x="702.333" y="69.1667" width="157.333" height="88.3333"/>
+  <object id="62" name="solid" x="224" y="802.167" width="92.6667" height="23.6667"/>
  </objectgroup>
 </map>

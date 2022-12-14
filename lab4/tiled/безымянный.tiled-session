@@ -22,10 +22,10 @@
                 5
             ],
             "scale": 1.5,
-            "selectedLayer": 2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 841,
-                "y": 458.3333333333333
+                "x": 459,
+                "y": 135
             }
         },
         "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field11.xml": {
@@ -40,11 +40,14 @@
             }
         },
         "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field2.xml": {
-            "scale": 0.75,
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 2,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 512.6666666666665,
-                "y": 911.3333333333333
+                "x": 439.75,
+                "y": -11.75
             }
         },
         "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/merged.tsx": {
@@ -89,8 +92,8 @@
     ],
     "project": "безымянный.tiled-project",
     "recentFiles": [
-        "merged2.tsx",
         "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field2.xml",
+        "merged2.tsx",
         "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/merged.tsx",
         "PathAndObjects.tsx",
         "32x32_tiles.tsx",

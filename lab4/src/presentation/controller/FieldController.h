@@ -25,25 +25,53 @@ public:
         if (field) {
             fieldModel = std::make_unique<FieldModel>(*field);
         } else {
-//            auto buf = playerRepository.find(1);
-//            if (!buf) throw std::runtime_error("player does not exist while field controller");
-//            auto buf = PlayerModel();
-//            playerModel = std::shared_ptr<PlayerModel>(new PlayerModel(std::move(buf)));
-            playerModel = std::make_shared<PlayerModel>();
-
-            fieldModel = std::make_shared<FieldModel>(fieldId, playerModel);
-
-            playerModel->addField(fieldModel);
-
-            update(0); // todo зачем то точно нужно было
+            setNewField(fieldId);
         }
     }
 
-    void handleEvent(sf::Event & event) {
+private:
+    void setNewField(int fieldId) {
+        //            auto buf = playerRepository.find(1);
+//            if (!buf) throw std::runtime_error("player does not exist while field controller");
+        auto buf = PlayerModel();
+        playerModel = std::make_shared<PlayerModel>(std::move(buf));
+//            playerModel = std::make_shared<PlayerModel>();
 
+        fieldModel = std::make_shared<FieldModel>(fieldId, playerModel);
+
+        playerModel->setField(fieldModel);
+
+        update(0); // todo зачем то точно нужно было
     }
 
+public:
+    void handleEvent(sf::Event & event) {
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::E) {
+                std::string interactiveName = getInteractive();
 
+
+
+            }
+        }
+    }
+
+private:
+    std::string getInteractive() {
+        return "";
+    }
+
+    std::string getIntersectedInteractor() {
+        auto playerRect = playerModel->getFloatRect();
+        for (const auto & object: fieldModel->getLevel().getObjects()) {
+            if (playerRect.intersects(object.rect)) {
+                return object.name;
+            }
+        }
+        return "";
+    }
+
+public:
     void handleState() {
         float shiftK = 1;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
@@ -63,8 +91,7 @@ public:
         } else {
             playerModel->setDy(0);
         }
-        Injected<sf::RenderWindow> window;
-        auto mousePos = sf::Mouse::getPosition(*window);
+        auto mousePos = sf::Mouse::getPosition(*Injected<sf::RenderWindow>());
         playerModel->setDirection({
             mousePos.x * windowWidth / changedWindowWidth,
             mousePos.y * windowHeight / changedWindowHeight
@@ -76,8 +103,8 @@ public:
 
         auto playerCoords = playerModel->getCoords();
         auto playerSize = playerModel->getSize();
-        auto x = playerCoords.x - windowWidth / 2 + playerModel->getSize().x / 2;
-        auto y = playerCoords.y - windowHeight / 2 + playerModel->getSize().y / 2;
+        auto x = playerCoords.x - windowWidth / 2 + playerSize.x / 2;
+        auto y = playerCoords.y - windowHeight / 2 + playerSize.y / 2;
         auto tilesetSize = fieldModel->getLevel().getLevelSize();
         if (x < 0) {
             x = 0;
@@ -91,6 +118,12 @@ public:
         }
 
         fieldModel->setOffset(x, y);
+
+        std::string intersectedInteractiveName = getIntersectedInteractor();
+        if (intersectedInteractiveName == "field") {
+            int fieldId = fieldModel->getLevel().GetObject(intersectedInteractiveName).GetPropertyInt("fieldId");
+            setNewField(fieldId);
+        }
     }
 
     [[nodiscard]]

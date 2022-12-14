@@ -26,15 +26,20 @@ public:
         animationManager->play();
     }
 
-    void addField(const std::shared_ptr<FieldModel> & fieldModel) {
+    void setField(const std::shared_ptr<FieldModel> & fieldModel) {
         coords = fieldModel->getPlayerCoords();
         this->fieldModel = fieldModel;
         animationManager->setPosition(coords.x, coords.y + size.y);
     }
 
+    sf::Vector2f sizeReduction = {5, 48};
+    sf::FloatRect getFloatRect() {
+        return {coords.x + sizeReduction.x, coords.y + sizeReduction.y, size.x - sizeReduction.x, size.y - sizeReduction.y};
+    }
+
+public:
     void collision(int dir, std::string && objectsName) {
-        sf::Vector2f sizeReduction = {5, 48};
-        auto rect = sf::FloatRect(coords.x + sizeReduction.x, coords.y + sizeReduction.y, size.x - sizeReduction.x, size.y - sizeReduction.y);
+        auto rect = getFloatRect();
         auto objects = fieldModel->getLevel().GetObjects(objectsName);
         for (const auto & object: objects) {
             if (!rect.intersects(object.rect)) continue;
