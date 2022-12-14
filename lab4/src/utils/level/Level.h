@@ -59,7 +59,7 @@ bool Level::LoadFromFile(std::string filename)//двоеточия-обраще�
     TiXmlElement* image;
     image = tilesetElement->FirstChildElement("image");
 //    std::string imagepath = image->Attribute("source");
-    std::string imagepath = R"(D:\C\3sem_cpp\informatics\lab4\resources\levels\maps\PathAndObjects.png)";
+    std::string imagepath = R"(D:\C\3sem_cpp\informatics\lab4\resources\levels\maps\merged2.png)";
 // пытаемся загрузить тайлсет
     sf::Image img;
     if (!img.loadFromFile(imagepath)) {
@@ -112,7 +112,8 @@ bool Level::LoadFromFile(std::string filename)//двоеточия-обраще�
         int x = 0;
         int y = 0;
         while (tileElement) {
-            int tileGID = atoi(tileElement->Attribute("gid"));
+            auto asd = tileElement->Attribute("gid");
+            int tileGID = atoi(asd);
             int subRectToUse = tileGID - firstTileID;
 // Устанавливаем TextureRect каждого тайла
             if (subRectToUse >= 0) {

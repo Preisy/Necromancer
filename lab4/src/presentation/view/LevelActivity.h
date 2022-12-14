@@ -34,9 +34,9 @@ public:
         fieldView.update(time);
     }
 
-    void draw() override {
+    void draw(float time) override {
         /* skills view drawing */
-        fieldView.draw();
+        fieldView.draw(time);
     }
 
 };

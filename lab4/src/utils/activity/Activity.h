@@ -10,7 +10,7 @@ public:
 
     virtual void update(float time) = 0;
 
-    virtual void draw() = 0;
+    virtual void draw(float time) = 0;
 
     virtual ~Activity() = default;
 };

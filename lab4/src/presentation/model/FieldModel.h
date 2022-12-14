@@ -27,14 +27,11 @@ public:
                 (tileCoords.end() - 1)->push_back(tile.getPosition());
             }
         }
-        for (auto & object: lvl.getObjects()) {
-            objectsCoords.push_back(object.getRect());
-        }
 
 
-//        auto coords = lvl.GetObject("player").rect;
-//        offset.x = coords.left;
-//        offset.y = coords.top;
+        auto coords = lvl.GetObject("player").rect;
+        offset.x = coords.left;
+        offset.y = coords.top;
 
         unitModels.push_back(playerModel);
     }
@@ -57,12 +54,6 @@ public:
                 tiles[j].setPosition(tileCoords[i][j].x - offset.x, tileCoords[i][j].y - offset.y);
             }
         }
-        auto & objects = lvl.getObjects();
-        for (int i = 0; i < objects.size(); ++i) {
-            objects[i].getRect().left -= offset.x;
-            objects[i].getRect().top -= offset.y;
-        }
-
 
 
         for (const auto & unitModel: unitModels) {

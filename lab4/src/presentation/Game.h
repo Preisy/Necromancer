@@ -17,13 +17,13 @@ class Game {
 
 public:
     Game() {
-        window->setSize(sf::Vector2u(30*fieldCellSize, 25*fieldCellSize));
+        window->setSize(sf::Vector2u(changedWindowWidth, changedWindowHeight));
         window->setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2 - 30*32 / 2,
                                         sf::VideoMode::getDesktopMode().height / 2 - 25*32 / 2));
 
-        playerRepository.insert(1, PlayerModel());
+//        playerRepository.insert(1, PlayerModel());
 
-        configureInjecting<FieldController>(1);
+        configureInjecting<FieldController>(2);
 
         activityManager->push(std::make_unique<LevelActivity>());
     }
@@ -40,8 +40,8 @@ public:
         activityManager->top()->update(time);
     }
 
-    void draw() {
-        activityManager->top()->draw();
+    void draw(float time) {
+        activityManager->top()->draw(time);
     }
 
     void run() {
@@ -65,7 +65,7 @@ public:
 
             window->clear();
 
-            draw();
+            draw(time);
 
             window->display();
         }

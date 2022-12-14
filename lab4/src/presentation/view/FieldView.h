@@ -31,12 +31,12 @@ public:
 
 
 
-    void draw() {
+    void draw(float time) {
         const std::shared_ptr<FieldModel> & fieldModel = fieldController->getFieldModel();
         fieldModel->getLevel().Draw(*window);
 
         for (const auto & item : fieldModel->getUnitModels()) {
-           unitView.draw(item);
+           unitView.draw(item, time);
         }
     }
 };

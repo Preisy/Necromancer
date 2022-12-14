@@ -1,8 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <memory>
+//#include <cmath>
 
 #include "data/Repository.h"
+#include "presentation/model/FieldModel.h"
+#include "presentation/model/PlayerModel.h"
+#include "config.h"
 
 class FieldController {
     std::shared_ptr<FieldModel> fieldModel = nullptr;
@@ -20,9 +25,11 @@ public:
         if (field) {
             fieldModel = std::make_unique<FieldModel>(*field);
         } else {
-            auto buf = playerRepository.find(1);
-            if (!buf) throw std::runtime_error("player does not exist while field controller");
-            playerModel = std::make_shared<PlayerModel>(*buf);
+//            auto buf = playerRepository.find(1);
+//            if (!buf) throw std::runtime_error("player does not exist while field controller");
+//            auto buf = PlayerModel();
+//            playerModel = std::shared_ptr<PlayerModel>(new PlayerModel(std::move(buf)));
+            playerModel = std::make_shared<PlayerModel>();
 
             fieldModel = std::make_shared<FieldModel>(fieldId, playerModel);
 
@@ -40,7 +47,7 @@ public:
     void handleState() {
         float shiftK = 1;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-            shiftK = 2;
+            shiftK = 1.5;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             playerModel->setDx(-0.1 * shiftK);
@@ -56,16 +63,21 @@ public:
         } else {
             playerModel->setDy(0);
         }
+        Injected<sf::RenderWindow> window;
+        auto mousePos = sf::Mouse::getPosition(*window);
+        playerModel->setDirection({
+            mousePos.x * windowWidth / changedWindowWidth,
+            mousePos.y * windowHeight / changedWindowHeight
+        });
     }
 
     void update(float time) {
         fieldModel->update(time);
 
         auto playerCoords = playerModel->getCoords();
-//        auto x = playerCoords.x - windowWidth / 2;
-        auto x = playerCoords.x - windowWidth / 2 - playerModel->getSize().x / 2;
-//        auto y = playerCoords.y - windowHeight / 2;
-        auto y = playerCoords.y - windowHeight / 2 - playerModel->getSize().y / 2;
+        auto playerSize = playerModel->getSize();
+        auto x = playerCoords.x - windowWidth / 2 + playerModel->getSize().x / 2;
+        auto y = playerCoords.y - windowHeight / 2 + playerModel->getSize().y / 2;
         auto tilesetSize = fieldModel->getLevel().getLevelSize();
         if (x < 0) {
             x = 0;
@@ -79,7 +91,6 @@ public:
         }
 
         fieldModel->setOffset(x, y);
-//        playerModel->setOffset(x, tilesetSize.y - windowHeight);
     }
 
     [[nodiscard]]

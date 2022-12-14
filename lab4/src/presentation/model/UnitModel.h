@@ -12,7 +12,7 @@ public:
     virtual void takeDamage(float damage) = 0;
 
     [[nodiscard]]
-    virtual AnimationManager & getAnimationManager() = 0;
+    virtual const std::unique_ptr<AnimationManager> & getAnimationManager() = 0;
 
     virtual ~UnitModel() = default;
 };

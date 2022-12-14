@@ -76,6 +76,9 @@ public:
         this->x = x;
         this->y = y;
     }
+    sf::Vector2f getPosition() {
+        return {x, y};
+    }
 
     void draw(sf::RenderWindow &window) {
         animList[currentAnim].sprite.setPosition(x,y);

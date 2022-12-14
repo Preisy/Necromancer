@@ -3,47 +3,104 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field2.xml",
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "Все файлы (*)",
     "fileStates": {
         "32x32_tiles.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/castle5.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field1.xml": {
-            "scale": 1,
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 841,
+                "y": 458.3333333333333
+            }
+        },
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field11.xml": {
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 510,
-                "y": 401.5
+                "x": 917,
+                "y": 687
             }
+        },
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field2.xml": {
+            "scale": 0.75,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 512.6666666666665,
+                "y": 911.3333333333333
+            }
+        },
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/merged.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/props_0.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 2
         },
         "Dragonheart.tsx": {
             "scaleInDock": 2,
             "scaleInEditor": 3
         },
+        "PathAndObject.tsx": {
+            "scaleInDock": 1
+        },
+        "PathAndObjects.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "TilesNew-export.tsx": {
             "scaleInDock": 3,
             "scaleInEditor": 3
+        },
+        "merged.tsx": {
+            "scaleInDock": 1
+        },
+        "merged2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
-    "last.externalTilesetPath": "D:/C/3sem_cpp/informatics/lab4/tiled",
+    "last.externalTilesetPath": "C:/Users/preus/Downloads",
     "last.imagePath": "C:/Users/preus/Downloads",
-    "map.height": 25,
+    "map.height": 40,
     "map.lastUsedFormat": "tmx",
-    "map.width": 30,
+    "map.width": 50,
     "openFiles": [
-        "Dragonheart.tsx"
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field2.xml",
+        "merged2.tsx"
     ],
     "project": "безымянный.tiled-project",
     "recentFiles": [
-        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field1.xml",
-        "Dragonheart.tsx",
+        "merged2.tsx",
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field2.xml",
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/merged.tsx",
+        "PathAndObjects.tsx",
         "32x32_tiles.tsx",
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/castle5.tsx",
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/props_0.tsx",
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field1.xml",
+        "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/field11.xml",
+        "Dragonheart.tsx",
         "TilesNew-export.tsx"
     ],
-    "tileset.lastUsedFilter": "Файлы набора тайлов Tiled (*.tsx *.xml)",
+    "tileset.lastUsedFilter": "Все файлы (*)",
     "tileset.lastUsedFormat": "tsx"
 }
