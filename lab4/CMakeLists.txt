@@ -8,7 +8,7 @@ include_directories(resources)
 
 set(TINYXML_SOURCE D:/C/3sem_cpp/libs/tinyxml/tinyxmlparser.cpp D:/C/3sem_cpp/libs/tinyxml/tinyxmlerror.cpp D:/C/3sem_cpp/libs/tinyxml/tinyxml.cpp D:/C/3sem_cpp/libs/tinyxml/tinystr.cpp)
 
-add_executable(lab4 main.cpp src/utils/observer/Observer.cpp src/utils/observer/Subject.cpp ${TINYXML_SOURCE})
+add_executable(lab4 main.cpp src/utils/observer/Observer.cpp src/utils/observer/Subject.cpp ${TINYXML_SOURCE} src/utils/level/Layer.cpp src/utils/level/Level.cpp src/utils/level/Object.cpp)
 add_executable(test test.cpp ${TINYXML_SOURCE})
 add_executable(test1 test1.cpp ${TINYXML_SOURCE})
 

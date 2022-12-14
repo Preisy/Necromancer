@@ -7,7 +7,7 @@
 #include "utils/DependencyInjection.h"
 #include "utils/activity/ActivityManager.h"
 #include "config.h"
-#include "presentation/view/LevelActivity.h"
+#include "presentation/view/level/LevelActivity.h"
 #include "data/Repository.h"
 
 class Game {
