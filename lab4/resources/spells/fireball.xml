@@ -1,0 +1,11 @@
+<!DOCTYPE SpriteDecomposer>
+<sprites image="fireball.png" transparentColor="">
+ <animation title="fireball_spell" delay="150">
+  <cut w="23" x="2" y="8" h="18" row="1" col="1"/>
+  <cut w="22" x="35" y="8" h="18" row="1" col="1"/>
+  <cut w="24" x="1" y="40" h="17" row="1" col="1"/>
+  <cut w="22" x="35" y="40" h="19" row="1" col="1"/>
+<!--  <cut w="2" x="33" y="42" h="1" row="1" col="1"/>-->
+<!--  <cut w="1" x="32" y="52" h="1" row="1" col="1"/>-->
+ </animation>
+</sprites>
