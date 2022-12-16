@@ -4,9 +4,10 @@
 #include <iostream>
 #include <cmath>
 #include "UnitModel.h"
-#include "FieldModel.h"
-
+#include "presentation/model/bullet/FireballSpell.h"
+#include "presentation/model/FieldModel.h"
 #include "utils/animation/AnimationManager.h"
+#include "utils/StaticDots.h"
 
 class PlayerModel : public UnitModel {
     float dx = 0;
@@ -15,7 +16,7 @@ class PlayerModel : public UnitModel {
     sf::Vector2f coords = {0, 0};
     sf::Vector2f offset = {0, 0};
     std::shared_ptr<FieldModel> fieldModel = nullptr;
-    double direction = -M_PI_2;
+    float direction = -M_PI_2;
     std::unique_ptr<AnimationManager> animationManager = std::make_unique<AnimationManager>();
 
 public:
@@ -117,7 +118,12 @@ public:
     }
 
     void fire() {
-
+        auto fireball = std::make_shared<FireballSpell>(
+                direction,
+                fieldModel,
+                sf::Vector2f(coords.x, coords.y + size.y / 2)
+        );
+        fireball->fire();
     }
 
     void takeDamage(float damage) override {
@@ -126,7 +132,8 @@ public:
 
     void setDirection(sf::Vector2i mousePos) {
         auto relativePlayerCoords = animationManager->getPosition();
-        direction = 0 - atan2((mousePos.y - relativePlayerCoords.y), (mousePos.x - relativePlayerCoords.x));
+        direction = 0 - (float) atan2((mousePos.y - relativePlayerCoords.y + size.y / 2), (mousePos.x - relativePlayerCoords.x - size.x / 2));
+        StaticDots::setPos("mouse", mousePos.x, mousePos.y);
     }
 
 

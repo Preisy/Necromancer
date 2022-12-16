@@ -6,8 +6,9 @@
 
 #include "data/Repository.h"
 #include "presentation/model/FieldModel.h"
-#include "presentation/model/PlayerModel.h"
+#include "presentation/model/unit/PlayerModel.h"
 #include "config.h"
+
 
 class FieldController {
     std::shared_ptr<FieldModel> fieldModel = nullptr;
@@ -46,12 +47,14 @@ private:
 
 public:
     void handleEvent(sf::Event & event) {
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                playerModel->fire();
+            }
+        }
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::E) {
                 std::string interactiveName = getInteractive();
-
-
-
             }
         }
     }

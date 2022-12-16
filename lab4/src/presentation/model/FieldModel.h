@@ -2,19 +2,20 @@
 
 #include <fstream>
 #include <memory>
-#include <vector>
-#include "UnitModel.h"
+#include <list>
+#include "unit/UnitModel.h"
 
 #include "utils/observer/Subject.h"
 #include "utils/level/Level.h"
+#include "presentation/model/bullet/BulletModel.h"
 
 
 class FieldModel {
-    std::vector<std::shared_ptr<UnitModel>> unitModels;
-    sf::Vector2f offset = {0, 0};
-    Level lvl;
     std::vector<std::vector<sf::Vector2f>> tileCoords;
-    std::vector<sf::Rect<float>> objectsCoords;
+    std::list<std::shared_ptr<UnitModel>> unitModels;
+    std::list<std::shared_ptr<BulletModel>> bulletModels;
+    Level lvl;
+    sf::Vector2f offset = {0, 0};
 
 public:
     explicit FieldModel(int modelId, const std::shared_ptr<UnitModel> & playerModel) {
@@ -41,6 +42,10 @@ public:
         for (const auto & unitModel: unitModels) {
             unitModel->update(time);
         }
+
+        for (const auto & bulletModel: bulletModels) {
+            bulletModel->update(time);
+        }
     }
 
 
@@ -59,11 +64,21 @@ public:
         for (const auto & unitModel: unitModels) {
             unitModel->setOffset(offset.x, offset.y);
         }
+        for (const auto & bulletModel: bulletModels) {
+            bulletModel->setOffset(offset.x, offset.y);
+        }
     }
 
     sf::Vector2f getPlayerCoords() {
         auto rect = lvl.GetObject("player").getRect();
         return {rect.left, rect.top};
+    }
+
+    auto addBullet(const std::shared_ptr<BulletModel> & bulletModel) {
+        return bulletModels.insert(bulletModels.end(), bulletModel);
+    }
+    auto eraseBullet(std::list<std::shared_ptr<BulletModel>>::iterator iter) {
+        return bulletModels.erase(iter);
     }
 
     const sf::Vector2f & getOffset() const {
@@ -75,7 +90,12 @@ public:
     }
 
     [[nodiscard]]
-    const std::vector<std::shared_ptr<UnitModel>> & getUnitModels() const {
+    const std::list<std::shared_ptr<BulletModel>> & getBulletModels() const {
+        return bulletModels;
+    }
+
+    [[nodiscard]]
+    const std::list<std::shared_ptr<UnitModel>> & getUnitModels() const {
         return unitModels;
     }
 };

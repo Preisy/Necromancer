@@ -4,6 +4,7 @@
 #include <memory>
 #include "RenderWindowDI.h"
 
+#include "utils/StaticDots.h"
 #include "utils/DependencyInjection.h"
 #include "utils/activity/ActivityManager.h"
 #include "config.h"
@@ -66,6 +67,10 @@ public:
             window->clear();
 
             draw(time);
+
+            for (const auto & it: StaticDots::getAll()) {
+                window->draw(it.second);
+            }
 
             window->display();
         }

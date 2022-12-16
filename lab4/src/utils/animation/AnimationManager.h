@@ -85,6 +85,8 @@ public:
         window.draw( animList[currentAnim].sprite );
     }
 
+    void rotate(float angle) {animList[currentAnim].sprite.setRotation(angle * 180 / 3.14);}
+
     void flip(bool b=1) {animList[currentAnim].flip = b;}
 
     void tick(float time){animList[currentAnim].tick(time);}

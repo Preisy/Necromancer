@@ -8,13 +8,13 @@
 #include "presentation/RenderWindowDI.h"
 #include "config.h"
 #include "presentation/model/FieldModel.h"
-#include "UnitView.h"
+#include "ObjectView.h"
 #include "presentation/controller/FieldController.h"
 
 class FieldView {
     Injected<sf::RenderWindow> window;
     Injected<FieldController> fieldController;
-    UnitView unitView;
+    ObjectView objectView;
 
 public:
     void handleEvent(sf::Event & event) {
@@ -35,8 +35,12 @@ public:
         const std::shared_ptr<FieldModel> & fieldModel = fieldController->getFieldModel();
         fieldModel->getLevel().Draw(*window);
 
+
+        for (const auto & item : fieldModel->getBulletModels()) {
+            objectView.draw(item, time);
+        }
         for (const auto & item : fieldModel->getUnitModels()) {
-           unitView.draw(item, time);
+            objectView.draw(item, time);
         }
     }
 };
