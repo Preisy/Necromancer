@@ -29,7 +29,7 @@ public:
             const std::shared_ptr<FieldModel> & fieldModel
     ) : fieldModel(fieldModel) {
         size = {32, 50};
-        sizeReduction = {5, 20};
+        sizeReduction = {0, 20};
         coords = start;
 
         animationManager->loadFromXML(R"(D:\C\3sem_cpp\informatics\lab4\resources\units\human.xml)",
