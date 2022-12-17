@@ -25,8 +25,8 @@ public:
         sizeReduction = {5, 48};
 
         animationManager = std::make_unique<AnimationManager>();
-        animationManager->loadFromXML(R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.xml)",
-                                     R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.png)");
+        animationManager->loadFromXML(R"(D:\C\3sem_cpp\Necromancer\resources\units\player_walking.xml)",
+                                     R"(D:\C\3sem_cpp\Necromancer\resources\units\player_walking.png)");
         animationManager->set("walk_w");
         animationManager->play();
     }
@@ -100,9 +100,9 @@ public:
         } else {
             if (direction > -M_PI_4 && direction < M_PI_4) {
                 animationManager->set("stay_d");
-            } else if (direction < -M_PI_4 && direction > -3*M_PI_4 ) {
+            } else if (direction <= -M_PI_4 && direction >= -3*M_PI_4 ) {
                 animationManager->set("stay_s");
-            } else if (direction > M_PI_4 && direction < 3*M_PI_4 ) {
+            } else if (direction >= M_PI_4 && direction <= 3*M_PI_4 ) {
                 animationManager->set("stay_w");
             } else if (direction > 3*M_PI_4 || direction < -3*M_PI_4 ) {
                 animationManager->set("stay_a");
@@ -121,7 +121,8 @@ public:
                 direction,
                 fieldModel,
                 sf::Vector2f(coords.x, coords.y + size.y / 2),
-                faction
+                faction,
+                500
         );
         fireball->fire();
     }

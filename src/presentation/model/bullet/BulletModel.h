@@ -13,7 +13,7 @@ public:
     virtual void setOffset(float x, float y) = 0;
 
     [[nodiscard]]
-    virtual const std::unique_ptr<AnimationManager> & getAnimationManager() = 0;
+    const std::unique_ptr<AnimationManager> & getAnimationManager() override = 0;
 
     virtual ~BulletModel() = default;
 };

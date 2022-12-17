@@ -32,9 +32,10 @@ public:
         sizeReduction = {0, 20};
         coords = start;
 
-        animationManager->loadFromXML(R"(D:\C\3sem_cpp\informatics\lab4\resources\units\human.xml)",
-                                      R"(D:\C\3sem_cpp\informatics\lab4\resources\units\human.png)");
+        animationManager->loadFromXML(R"(D:\C\3sem_cpp\Necromancer\resources\units\human.xml)",
+                                      R"(D:\C\3sem_cpp\Necromancer\resources\units\human.png)");
         animationManager->set("stay_s");
+//        animationManager->set("fire_d");
         animationManager->play();
     }
 
@@ -59,19 +60,34 @@ public:
                 pow(playerCoords.top + playerCoords.height / 2 - coords.y, 2)
         );
 
+
+        auto isFireAnimationPlay = animationManager->isPlaying() &&
+                                   animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
+
         if (r >= 400) {
-            animationManager->set("stay_s");
+            if (!isFireAnimationPlay)
+                animationManager->set("stay_s");
             return;
         }
 
         fire(time, playerCoords);
 
+        isFireAnimationPlay = animationManager->isPlaying() &&
+                              animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
+
         if (r <= 200) {
-            animationManager->set("stay_s");
+            if (!isFireAnimationPlay)
+                animationManager->set("stay_" + chooseDirection(playerCoords));
             return;
         }
 
         move(time, playerCoords);
+
+
+        if (!isFireAnimationPlay) {
+            animationManager->set("walk_" + chooseDirection(playerCoords));
+            animationManager->play();
+        }
     }
 
     sf::FloatRect getPlayerCoords() {
@@ -84,16 +100,21 @@ public:
     };
 
 private:
-    void fire(float time, sf::FloatRect playerCoords) {
+    void fire(float time, const sf::FloatRect & playerCoords) {
         timeToShot -= time;
         if (timeToShot > 0) return;
+
         timeToShot = fireInterval;
+        animationManager->set("fire_" + chooseDirection(playerCoords));
+        animationManager->loop(false);
+        animationManager->play();
 
         auto fireball = std::make_shared<FireballSpell>(
                 -atan2((playerCoords.top - coords.y), (playerCoords.left - coords.x)),
                 fieldModel,
                 sf::Vector2f(coords.x, coords.y + size.y / 2),
-                faction
+                faction,
+                900
         );
         fireball->fire();
     }
@@ -133,20 +154,20 @@ private:
         coords.y += dy * time;
         collisionY();
 
-        if (abs(dx) > abs(dy)) {
-            if (dx < 0) {
-                animationManager->set("walk_a");
-            } else {
-                animationManager->set("walk_d");
-            }
-        } else {
-            if (dy < 0) {
-                animationManager->set("walk_w");
-            } else {
-                animationManager->set("walk_s");
-            }
-        }
+    }
 
+    std::string chooseDirection(const sf::FloatRect & playerCoords) {
+        float direction = -atan2((playerCoords.top - coords.y), (playerCoords.left - coords.x));
+        if (direction > -M_PI_4 && direction < M_PI_4) {
+            return "d";
+        } else if (direction <= -M_PI_4 && direction >= -3*M_PI_4 ) {
+            return "s";
+        } else if (direction >= M_PI_4 && direction <= 3*M_PI_4 ) {
+            return "w";
+        } else if (direction > 3*M_PI_4 || direction < -3*M_PI_4 ) {
+            return "a";
+        }
+        return "";
     }
 
 public:

@@ -10,15 +10,14 @@
 
 
 class FireballSpell : public BulletModel, public std::enable_shared_from_this<FireballSpell> {
-//    sf::Vector2f coords;
     float damage = 25;
     float speed = 0.1;
     float dx = 0;
     float dy = 0;
-    float direction = 0;
     sf::Vector2f offset = {0, 0};
     sf::Vector2f size = {16, 16};
     sf::FloatRect floatRect;
+    float delay;
 
     std::unique_ptr<AnimationManager> animationManager = std::make_unique<AnimationManager>();
     std::shared_ptr<FieldModel> fieldModel = nullptr;
@@ -30,8 +29,9 @@ public:
             float direction,
             const std::shared_ptr<FieldModel> & fieldModel,
             sf::Vector2f start,
-            CharacterFaction senderFaction
-    ) : fieldModel(fieldModel), direction(direction), senderFaction(senderFaction) {
+            CharacterFaction senderFaction,
+            float delayToStart
+    ) : fieldModel(fieldModel), senderFaction(senderFaction), delay(delayToStart) {
         animationManager->loadFromXML(
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.xml)",
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.png)"
@@ -52,6 +52,7 @@ public:
         floatRect.height = -sin(direction + M_PI_4) * r;
 
         animationManager->setPosition(floatRect.left, floatRect.top);
+        animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color(0x00000000));
     }
 
     void fire() {
@@ -117,6 +118,14 @@ private:
 
 public:
     void update(float time) override {
+        if (delay > 0) {
+            delay -= time;
+            if (delay <= 0) {
+                animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color::White);
+            }
+            return;
+        }
+
         floatRect.left += dx * time;
         floatRect.top += dy * time;
 
@@ -128,8 +137,6 @@ public:
             fieldModel->eraseBullet(fieldPos);
             return;
         }
-
-        /* if collision with units*/
     }
 
 

@@ -61,7 +61,11 @@ public:
                 playerModel->fire();
             }
         }
+
         if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Space) {
+                playerModel->fire();
+            }
             if (event.key.code == sf::Keyboard::E) {
                 std::string interactiveName = getInteractive();
             }
