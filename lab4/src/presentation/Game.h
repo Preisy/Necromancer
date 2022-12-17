@@ -22,9 +22,9 @@ public:
         window->setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2 - 30*32 / 2,
                                         sf::VideoMode::getDesktopMode().height / 2 - 25*32 / 2));
 
-//        playerRepository.insert(1, PlayerModel());
+        playerRepository.insert(1, std::make_shared<PlayerModel>());
 
-        configureInjecting<FieldController>(1);
+        configureInjecting<FieldController>(2);
 
         activityManager->push(std::make_unique<LevelActivity>());
     }

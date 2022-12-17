@@ -13,5 +13,9 @@ public:
 
     virtual void takeDamage(float damage) = 0;
 
+    virtual void addToField() = 0;
+
+    virtual sf::FloatRect getFloatRect() = 0;
+
     virtual ~UnitModel() = default;
 };

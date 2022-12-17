@@ -27,6 +27,14 @@ public:
         }
         inst()->operator[](name).setPosition(x, y);
     }
+
+    static void setPos(const std::string & name, float x, float y, sf::Color color) {
+        if (inst()->find(name) == inst()->end()) {
+            push(name, x, y);
+        }
+        inst()->operator[](name).setPosition(x, y);
+        inst()->operator[](name).setFillColor(color);
+    }
     static auto getAll() {
         return *inst();
     }

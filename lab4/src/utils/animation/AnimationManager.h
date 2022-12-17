@@ -89,6 +89,8 @@ public:
 
     void flip(bool b=1) {animList[currentAnim].flip = b;}
 
+    void loop(bool b=true) {animList[currentAnim].loop = b;}
+
     void tick(float time){animList[currentAnim].tick(time);}
 
     void pause() {animList[currentAnim].isPlaying=false;}

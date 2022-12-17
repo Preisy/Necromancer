@@ -9,12 +9,15 @@
 
 
 class FireballSpell : public BulletModel, public std::enable_shared_from_this<FireballSpell> {
-    sf::Vector2f coords;
+//    sf::Vector2f coords;
+    float damage = 25;
     float speed = 0.1;
     float dx = 0;
     float dy = 0;
+    float direction = 0;
     sf::Vector2f offset = {0, 0};
-    sf::Vector2f size = {15, 15};
+    sf::Vector2f size = {16, 16};
+    sf::FloatRect floatRect;
 
     std::unique_ptr<AnimationManager> animationManager = std::make_unique<AnimationManager>();
     std::shared_ptr<FieldModel> fieldModel = nullptr;
@@ -25,7 +28,7 @@ public:
             float direction,
             const std::shared_ptr<FieldModel> & fieldModel,
             sf::Vector2f start
-    ) : fieldModel(fieldModel), coords(start) {
+    ) : fieldModel(fieldModel), direction(direction) {
         animationManager->loadFromXML(
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.xml)",
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.png)"
@@ -34,8 +37,16 @@ public:
         dx = speed * cos(direction);
         dy = -speed * sin(direction);
 
-        animationManager->setPosition(coords.x, coords.y);
-//        animationManager->set("fireball_spell");
+        floatRect.left = start.x + 40 * cos(direction);
+        floatRect.top = start.y - 40 * sin(direction);
+
+        floatRect.left += size.x / 2;
+
+        double r = sqrt(size.x * size.x + size.y * size.y);
+        floatRect.width = cos(direction + M_PI_4) * r;
+        floatRect.height = -sin(direction + M_PI_4) * r;
+
+        animationManager->setPosition(floatRect.left, floatRect.top);
     }
 
     void fire() {
@@ -44,8 +55,8 @@ public:
     }
 
 private:
-    sf::FloatRect getFloatRect() {
-        return {coords.x, coords.y, size.x, size.y};
+    sf::FloatRect getFloatRect() const {
+        return floatRect;
     }
 
     bool collision(int dir, std::string && objectsName) {
@@ -87,12 +98,29 @@ private:
         return collision(1, "solid");
     }
 
+    bool hitIntersectedUnit() {
+        for (const auto & unit: fieldModel->getUnitModels()) {
+            if (unit == nullptr) continue;
+            if (unit->getFloatRect().intersects(getFloatRect())) {
+                unit->takeDamage(damage);
+                return true;
+            }
+        }
+        return false;
+    }
+
 public:
     void update(float time) override {
-        coords.x += dx * time;
-        coords.y += dy * time;
+        floatRect.left += dx * time;
+        floatRect.top += dy * time;
+
         if (collisionX() || collisionY()) {
             fieldModel->eraseBullet(fieldPos);
+            return;
+        }
+        if (hitIntersectedUnit()) {
+            fieldModel->eraseBullet(fieldPos);
+            return;
         }
 
         /* if collision with units*/
@@ -102,7 +130,7 @@ public:
     void setOffset(float x, float y) override {
         offset.x = x;
         offset.y = y;
-        animationManager->setPosition(coords.x - offset.x, coords.y - offset.y);
+        animationManager->setPosition(floatRect.left - offset.x, floatRect.top - offset.y);
     }
 
     const std::unique_ptr<AnimationManager> & getAnimationManager() override {

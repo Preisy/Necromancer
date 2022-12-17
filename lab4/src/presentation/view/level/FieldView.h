@@ -36,10 +36,13 @@ public:
         fieldModel->getLevel().Draw(*window);
 
 
-        for (const auto & item : fieldModel->getBulletModels()) {
+        for (const auto & item : fieldModel->getDeadUnitModels()) {
             objectView.draw(item, time);
         }
         for (const auto & item : fieldModel->getUnitModels()) {
+            objectView.draw(item, time);
+        }
+        for (const auto & item : fieldModel->getBulletModels()) {
             objectView.draw(item, time);
         }
     }

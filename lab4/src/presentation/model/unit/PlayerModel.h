@@ -17,10 +17,11 @@ class PlayerModel : public UnitModel {
     sf::Vector2f offset = {0, 0};
     std::shared_ptr<FieldModel> fieldModel = nullptr;
     float direction = -M_PI_2;
-    std::unique_ptr<AnimationManager> animationManager = std::make_unique<AnimationManager>();
+    std::unique_ptr<AnimationManager> animationManager = nullptr;
 
 public:
     explicit PlayerModel() {
+        animationManager = std::make_unique<AnimationManager>();
         animationManager->loadFromXML(R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.xml)",
                                      R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.png)");
         animationManager->set("walk_w");
@@ -34,7 +35,7 @@ public:
     }
 
     sf::Vector2f sizeReduction = {5, 48};
-    sf::FloatRect getFloatRect() {
+    sf::FloatRect getFloatRect() override {
         return {coords.x + sizeReduction.x, coords.y + sizeReduction.y, size.x - sizeReduction.x, size.y - sizeReduction.y};
     }
 
@@ -127,8 +128,13 @@ public:
     }
 
     void takeDamage(float damage) override {
+        std::cout << "damaged" << std::endl;
+    }
+
+    void addToField() override {
 
     }
+
 
     void setDirection(sf::Vector2i mousePos) {
         auto relativePlayerCoords = animationManager->getPosition();

@@ -8,6 +8,8 @@
 #include "presentation/model/FieldModel.h"
 #include "presentation/model/unit/PlayerModel.h"
 #include "config.h"
+#include "presentation/model/unit/HumanModel.h"
+
 
 
 class FieldController {
@@ -22,25 +24,32 @@ public:
     }
 
     explicit FieldController(int fieldId) {
-        auto field = fieldRepository.find(fieldId);
-        if (field) {
-            fieldModel = std::make_unique<FieldModel>(*field);
-        } else {
-            setNewField(fieldId);
-        }
+        playerModel = playerRepository.find(1);
+        if (playerModel == nullptr)
+            throw std::runtime_error("player does not exist while field controller");
+
+        setNewField(fieldId);
     }
 
 private:
+    void saveField(int fieldId) {
+        fieldRepository.insertOrAssign(fieldId, fieldModel);
+    }
+
     void setNewField(int fieldId) {
-        //            auto buf = playerRepository.find(1);
-//            if (!buf) throw std::runtime_error("player does not exist while field controller");
-        auto buf = PlayerModel();
-        playerModel = std::make_shared<PlayerModel>(std::move(buf));
-//            playerModel = std::make_shared<PlayerModel>();
+        fieldModel = fieldRepository.find(fieldId);
+        if (fieldModel == nullptr) {
+            fieldModel = std::make_shared<FieldModel>(fieldId, playerModel);
 
-        fieldModel = std::make_shared<FieldModel>(fieldId, playerModel);
-
+            for (const auto & object: fieldModel->getLevel().GetObjects("human")) {
+                std::make_shared<HumanModel>(
+                        sf::Vector2f(object.rect.left, object.rect.top),
+                        fieldModel
+                )->addToField();
+            }
+        }
         playerModel->setField(fieldModel);
+
 
         update(0); // todo зачем то точно нужно было
     }
@@ -125,6 +134,7 @@ public:
         std::string intersectedInteractiveName = getIntersectedInteractor();
         if (intersectedInteractiveName == "field") {
             int fieldId = fieldModel->getLevel().GetObject(intersectedInteractiveName).GetPropertyInt("fieldId");
+            saveField(fieldModel->getFieldId());
             setNewField(fieldId);
         }
     }

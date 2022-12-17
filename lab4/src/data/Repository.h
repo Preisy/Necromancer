@@ -9,7 +9,7 @@ class Repository {
     class SingletonRepository {
         static inline SingletonRepository* instance = nullptr;
 
-        std::unordered_map<int, Model> data;
+        std::unordered_map<int, std::shared_ptr<Model>> data;
 
         SingletonRepository() = default;
 
@@ -38,31 +38,36 @@ public:
 //        }
 //    }
 
-    bool insert(int id, Model && model) {
+    bool insert(int id, std::shared_ptr<Model> && model) {
         auto res = instance->data.emplace(id, std::move(model));
         return res.second;
     }
 
 
-    bool insert(int id, const Model & model) {
+    bool insert(int id, const std::shared_ptr<Model> & model) {
         auto res = instance->data.emplace(id, model);
         return res.second;
     }
+    bool insertOrAssign(int id, const std::shared_ptr<Model> & model) {
+        auto res = instance->data.insert_or_assign(id, model);
+        return res.second;
+    }
 
-    std::optional<Model> find(int id) {
+
+    std::shared_ptr<Model> find(int id) {
         auto res = instance->data.find(id);
         if (res == instance->data.end())
-            return {};
+            return nullptr;
         else
-            return {res->second};
+            return res->second;
     }
 
     bool erase(int id) {
         return instance->data.erase(id) == 1;
     }
 
-    std::unordered_map<int, Model> getAll() {
-        auto res = std::unordered_map<int, Model>(instance->data.size());
+    std::unordered_map<int, std::shared_ptr<Model>> getAll() {
+        auto res = std::unordered_map<int, std::shared_ptr<Model>>(instance->data.size());
         auto it = (*instance->data.begin());
         for (const auto & item : instance->data) {
             res.emplace(item.first, item.second);
