@@ -21,6 +21,7 @@ public:
         circleShape.setPosition(x, y);
         inst()->insert({name, circleShape});
     }
+
     static void setPos(const std::string & name, float x, float y) {
         if (inst()->find(name) == inst()->end()) {
             push(name, x, y);
@@ -35,6 +36,7 @@ public:
         inst()->operator[](name).setPosition(x, y);
         inst()->operator[](name).setFillColor(color);
     }
+
     static auto getAll() {
         return *inst();
     }

@@ -6,8 +6,7 @@
 #include "Animation.hpp"
 
 
-class AnimationManager
-{
+class AnimationManager {
 
 public:
     std::string currentAnim;
@@ -17,11 +16,10 @@ public:
     sf::Texture t;
     float speedK = 1;
 
-    AnimationManager()
-    {}
+    AnimationManager() {}
 
-    ~AnimationManager()
-    { animList.clear();
+    ~AnimationManager() {
+        animList.clear();
     }
 
     //загрузка из файла XML
@@ -34,76 +32,75 @@ public:
 
         animFile.LoadFile();
 
-        TiXmlElement *head;
+        TiXmlElement* head;
         head = animFile.FirstChildElement("sprites");
 
-        TiXmlElement *animElement;
+        TiXmlElement* animElement;
         animElement = head->FirstChildElement("animation");
-        while(animElement)
-        {
+        while (animElement) {
             Animation anim;
             currentAnim = animElement->Attribute("title");
             int delay = atoi(animElement->Attribute("delay"));
-            anim.speed = 1.0/delay; anim.sprite.setTexture(t);
+            anim.speed = 1.0 / delay;
+            anim.sprite.setTexture(t);
 
-            TiXmlElement *cut;
+            TiXmlElement* cut;
             cut = animElement->FirstChildElement("cut");
-            while (cut)
-            {
+            while (cut) {
                 int x = atoi(cut->Attribute("x"));
                 int y = atoi(cut->Attribute("y"));
                 int w = atoi(cut->Attribute("w"));
                 int h = atoi(cut->Attribute("h"));
 
-                anim.frames.push_back( sf::IntRect(x,y,w,h) );
-                anim.frames_flip.push_back( sf::IntRect(x+w,y,-w,h)  );
+                anim.frames.push_back(sf::IntRect(x, y, w, h));
+                anim.frames_flip.push_back(sf::IntRect(x + w, y, -w, h));
                 cut = cut->NextSiblingElement("cut");
             }
 
-            anim.sprite.setOrigin(0,anim.frames[0].height);
+            anim.sprite.setOrigin(0, anim.frames[0].height);
 
             animList[currentAnim] = anim;
             animElement = animElement->NextSiblingElement("animation");
         }
     }
 
-    void set(std::string name)
-    {
+    void set(std::string name) {
         currentAnim = name;
-        animList[currentAnim].flip=0;
+        animList[currentAnim].flip = 0;
     }
 
     void setPosition(float x, float y) {
         this->x = x;
         this->y = y;
     }
+
     sf::Vector2f getPosition() {
         return {x, y};
     }
 
-    void draw(sf::RenderWindow &window) {
-        animList[currentAnim].sprite.setPosition(x,y);
-        window.draw( animList[currentAnim].sprite );
+    void draw(sf::RenderWindow & window) {
+        animList[currentAnim].sprite.setPosition(x, y);
+        window.draw(animList[currentAnim].sprite);
     }
 
-    void rotate(float angle) {animList[currentAnim].sprite.setRotation(angle * 180 / 3.14);}
+    void rotate(float angle) { animList[currentAnim].sprite.setRotation(angle * 180 / 3.14); }
 
-    void flip(bool b=1) {animList[currentAnim].flip = b;}
+    void flip(bool b = 1) { animList[currentAnim].flip = b; }
 
-    void loop(bool b=true) {animList[currentAnim].loop = b;}
+    void loop(bool b = true) { animList[currentAnim].loop = b; }
 
-    void tick(float time){animList[currentAnim].tick(time, speedK);}
+    void tick(float time) { animList[currentAnim].tick(time, speedK); }
 
-    void pause() {animList[currentAnim].isPlaying=false;}
+    void pause() { animList[currentAnim].isPlaying = false; }
 
-    void play()  {animList[currentAnim].isPlaying=true;}
+    void play() { animList[currentAnim].isPlaying = true; }
 
-    void play(std::string name)  {animList[name].isPlaying=true;}
+    void play(std::string name) { animList[name].isPlaying = true; }
 
-    bool isPlaying()  {return animList[currentAnim].isPlaying;}
+    bool isPlaying() { return animList[currentAnim].isPlaying; }
 
-    float getH()  {return animList[currentAnim].frames[0].height;}
+    float getH() { return animList[currentAnim].frames[0].height; }
 
-    float getW() {return animList[currentAnim].frames[0].width;}
+    float getW() { return animList[currentAnim].frames[0].width; }
 
 };

@@ -49,7 +49,7 @@ bool Level::LoadFromFile(std::string filename)//двоеточия-обраще�
             sf::Rect<int> rect;
             rect.top = y * tileHeight;
             rect.height = tileHeight;
-            rect.left = x  * tileWidth;
+            rect.left = x * tileWidth;
             rect.width = tileWidth;
             subRects.push_back(rect);
         }

@@ -68,16 +68,17 @@ public:
     T* operator->() {
         return factory.inst;
     }
+
     T & operator*() {
         return *factory.inst;
     }
 };
 
 template<class T, class...Args>
-Injected<T> configureInjecting(Args&&...args) {
+Injected<T> configureInjecting(Args && ...args) {
     Factory<T> factory;
     factory.inst->~T();
-    ::new (factory.inst) T(std::forward<Args>(args)...);
+    ::new(factory.inst) T(std::forward<Args>(args)...);
     return Injected<T>();
 }
 

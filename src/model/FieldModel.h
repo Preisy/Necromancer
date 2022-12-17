@@ -7,7 +7,7 @@
 
 #include "utils/observer/Subject.h"
 #include "utils/level/Level.h"
-#include "presentation/model/bullet/BulletModel.h"
+#include "model/bullet/BulletModel.h"
 
 class FieldModel {
     std::vector<std::vector<sf::Vector2f>> tileCoords;
@@ -22,7 +22,7 @@ public:
     explicit FieldModel(
             int modelId,
             const std::shared_ptr<UnitModel> & playerModel
-        ) : fieldId(modelId) {
+    ) : fieldId(modelId) {
         lvl.LoadFromFile(
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\levels\maps\field)" + std::to_string(modelId) + ".xml"
         );
@@ -48,7 +48,7 @@ public:
         }
 
 
-        for (auto & bulletModel : bulletModels) {
+        for (auto & bulletModel: bulletModels) {
             bulletModel->update(time);
         }
         for (auto it = bulletModels.begin(); it != bulletModels.end(); ++it) {
@@ -88,7 +88,7 @@ public:
         for (const auto & bulletModel: bulletModels) {
             bulletModel->setOffset(offset.x, offset.y);
         }
-        for (const auto & deadUnitModel : deadUnitModels) {
+        for (const auto & deadUnitModel: deadUnitModels) {
             deadUnitModel->setOffset(offset.x, offset.y);
         }
     }

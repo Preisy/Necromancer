@@ -6,8 +6,7 @@
 
 #include "utils/activity/Activity.h"
 #include "utils/DependencyInjection.h"
-#include "presentation/model/LevelModel.h"
-#include "presentation/controller/LevelController.h"
+#include "controller/LevelController.h"
 
 
 class LevelActivity : public Activity {

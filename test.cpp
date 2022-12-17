@@ -12,12 +12,13 @@ int main() {
 //    RenderWindow window(sf::VideoMode(30*32, 25 * 32), "Necromancer");
 //    RenderWindow window(sf::VideoMode::getDesktopMode(), "Necromancer");
 //    view.reset(FloatRect(0, 0, 640, 480));
-    window.setSize(sf::Vector2u(30*32, 25*32));
-    window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2 - 30*32 / 2,
-                                    sf::VideoMode::getDesktopMode().height / 2 - 25*32 / 2));
+    window.setSize(sf::Vector2u(30 * 32, 25 * 32));
+    window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2 - 30 * 32 / 2,
+                                    sf::VideoMode::getDesktopMode().height / 2 - 25 * 32 / 2));
 
     AnimationManager anim;
-    anim.loadFromXML(R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.xml)", R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.png)");
+    anim.loadFromXML(R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.xml)",
+                     R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.png)");
 
     Clock clock;
 
@@ -36,7 +37,7 @@ int main() {
         time = time / 700;
 
         sf::Event event;
-        while(window.pollEvent(event)) {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
 

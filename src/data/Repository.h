@@ -39,6 +39,7 @@ public:
         auto res = instance->data.emplace(id, model);
         return res.second;
     }
+
     bool insertOrAssign(int id, const std::shared_ptr<Model> & model) {
         auto res = instance->data.insert_or_assign(id, model);
         return res.second;
@@ -60,7 +61,7 @@ public:
     std::unordered_map<int, std::shared_ptr<Model>> getAll() {
         auto res = std::unordered_map<int, std::shared_ptr<Model>>(instance->data.size());
         auto it = (*instance->data.begin());
-        for (const auto & item : instance->data) {
+        for (const auto & item: instance->data) {
             res.emplace(item.first, item.second);
         }
         return res;

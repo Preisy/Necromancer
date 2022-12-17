@@ -6,8 +6,8 @@
 
 #include "utils/animation/AnimationManager.h"
 #include "utils/StaticDots.h"
-#include "presentation/model/FieldModel.h"
-#include "presentation/model/bullet/FireballSpell.h"
+#include "model/FieldModel.h"
+#include "model/bullet/FireballSpell.h"
 
 class HumanModel : public UnitModel, public std::enable_shared_from_this<HumanModel> {
     std::unique_ptr<AnimationManager> animationManager = std::make_unique<AnimationManager>();
@@ -62,7 +62,8 @@ public:
 
 
         auto isFireAnimationPlay = animationManager->isPlaying() &&
-                                   animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
+                                   animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) ==
+                                   "fire_";
 
         if (r >= 400) {
             if (!isFireAnimationPlay)
@@ -73,7 +74,8 @@ public:
         fire(time, playerCoords);
 
         isFireAnimationPlay = animationManager->isPlaying() &&
-                              animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
+                              animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) ==
+                              "fire_";
 
         if (r <= 200) {
             if (!isFireAnimationPlay)
@@ -160,11 +162,11 @@ private:
         float direction = -atan2((playerCoords.top - coords.y), (playerCoords.left - coords.x));
         if (direction > -M_PI_4 && direction < M_PI_4) {
             return "d";
-        } else if (direction <= -M_PI_4 && direction >= -3*M_PI_4 ) {
+        } else if (direction <= -M_PI_4 && direction >= -3 * M_PI_4) {
             return "s";
-        } else if (direction >= M_PI_4 && direction <= 3*M_PI_4 ) {
+        } else if (direction >= M_PI_4 && direction <= 3 * M_PI_4) {
             return "w";
-        } else if (direction > 3*M_PI_4 || direction < -3*M_PI_4 ) {
+        } else if (direction > 3 * M_PI_4 || direction < -3 * M_PI_4) {
             return "a";
         }
         return "";

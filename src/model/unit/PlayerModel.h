@@ -4,8 +4,8 @@
 #include <iostream>
 #include <cmath>
 #include "UnitModel.h"
-#include "presentation/model/bullet/FireballSpell.h"
-#include "presentation/model/FieldModel.h"
+#include "model/bullet/FireballSpell.h"
+#include "model/FieldModel.h"
 #include "utils/animation/AnimationManager.h"
 #include "utils/StaticDots.h"
 
@@ -26,7 +26,7 @@ public:
 
         animationManager = std::make_unique<AnimationManager>();
         animationManager->loadFromXML(R"(D:\C\3sem_cpp\Necromancer\resources\units\player_walking.xml)",
-                                     R"(D:\C\3sem_cpp\Necromancer\resources\units\player_walking.png)");
+                                      R"(D:\C\3sem_cpp\Necromancer\resources\units\player_walking.png)");
         animationManager->set("walk_w");
         animationManager->play();
     }
@@ -55,6 +55,7 @@ public:
         collision(1, fieldModel->getLevel().GetObjects("sea"));
         collision(1, fieldModel->getUnitModels());
     }
+
     float ifOnPath() {
         auto unitRect = getFloatRect();
         auto rect = sf::FloatRect(
@@ -100,11 +101,11 @@ public:
         } else {
             if (direction > -M_PI_4 && direction < M_PI_4) {
                 animationManager->set("stay_d");
-            } else if (direction <= -M_PI_4 && direction >= -3*M_PI_4 ) {
+            } else if (direction <= -M_PI_4 && direction >= -3 * M_PI_4) {
                 animationManager->set("stay_s");
-            } else if (direction >= M_PI_4 && direction <= 3*M_PI_4 ) {
+            } else if (direction >= M_PI_4 && direction <= 3 * M_PI_4) {
                 animationManager->set("stay_w");
-            } else if (direction > 3*M_PI_4 || direction < -3*M_PI_4 ) {
+            } else if (direction > 3 * M_PI_4 || direction < -3 * M_PI_4) {
                 animationManager->set("stay_a");
             }
         }
@@ -145,10 +146,10 @@ public:
 
     void setDirection(sf::Vector2i mousePos) {
         auto relativePlayerCoords = animationManager->getPosition();
-        direction = 0 - (float) atan2((mousePos.y - relativePlayerCoords.y + size.y / 2), (mousePos.x - relativePlayerCoords.x - size.x / 2));
+        direction = 0 - (float) atan2((mousePos.y - relativePlayerCoords.y + size.y / 2),
+                                      (mousePos.x - relativePlayerCoords.x - size.x / 2));
         StaticDots::setPos("mouse", mousePos.x, mousePos.y);
     }
-
 
 
     [[nodiscard]]

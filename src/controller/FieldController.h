@@ -5,11 +5,10 @@
 //#include <cmath>
 
 #include "data/Repository.h"
-#include "presentation/model/FieldModel.h"
-#include "presentation/model/unit/PlayerModel.h"
+#include "model/FieldModel.h"
+#include "model/unit/PlayerModel.h"
 #include "config.h"
-#include "presentation/model/unit/HumanModel.h"
-
+#include "model/unit/HumanModel.h"
 
 
 class FieldController {
@@ -109,9 +108,9 @@ public:
         }
         auto mousePos = sf::Mouse::getPosition(*Injected<sf::RenderWindow>());
         playerModel->setDirection({
-            mousePos.x * windowWidth / changedWindowWidth,
-            mousePos.y * windowHeight / changedWindowHeight
-        });
+                                          mousePos.x * windowWidth / changedWindowWidth,
+                                          mousePos.y * windowHeight / changedWindowHeight
+                                  });
     }
 
     void update(float time) {

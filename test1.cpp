@@ -4,10 +4,10 @@
 //#include "game/RenderWindowDI.h"
 #include <memory>
 
-#include "presentation/model/bullet/BulletModel.h"
+#include "model/bullet/BulletModel.h"
 
 #include "utils/animation/AnimationManager.h"
-#include "presentation/model/FieldModel.h"
+#include "model/FieldModel.h"
 
 class FireballSpell : public BulletModel, public std::enable_shared_from_this<FireballSpell> {
 //    sf::Vector2f coords;

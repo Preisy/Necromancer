@@ -1,8 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "presentation/RenderWindowDI.h"
-#include "presentation/model/ObjectModel.h"
+#include "RenderWindowDI.h"
+#include "model/ObjectModel.h"
 
 class ObjectView {
     Injected<sf::RenderWindow> window;

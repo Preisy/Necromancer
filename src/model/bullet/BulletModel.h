@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "utils/animation/AnimationManager.h"
-#include "presentation/model/ObjectModel.h"
+#include "/model/ObjectModel.h"
 
 
 class BulletModel : public ObjectModel {

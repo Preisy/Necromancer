@@ -5,8 +5,8 @@
 #include "BulletModel.h"
 
 #include "utils/animation/AnimationManager.h"
-#include "presentation/model/FieldModel.h"
-#include "presentation/model/unit/CharacterFaction.h"
+#include "model/FieldModel.h"
+#include "model/unit/CharacterFaction.h"
 
 
 class FireballSpell : public BulletModel, public std::enable_shared_from_this<FireballSpell> {

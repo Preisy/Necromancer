@@ -8,7 +8,7 @@
 #include "utils/DependencyInjection.h"
 #include "utils/activity/ActivityManager.h"
 #include "config.h"
-#include "presentation/view/level/LevelActivity.h"
+#include "view/level/LevelActivity.h"
 #include "data/Repository.h"
 
 class Game {
@@ -19,8 +19,8 @@ class Game {
 public:
     Game() {
         window->setSize(sf::Vector2u(changedWindowWidth, changedWindowHeight));
-        window->setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2 - 30*32 / 2,
-                                        sf::VideoMode::getDesktopMode().height / 2 - 25*32 / 2));
+        window->setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2 - 30 * 32 / 2,
+                                         sf::VideoMode::getDesktopMode().height / 2 - 25 * 32 / 2));
 
         playerRepository.insert(1, std::make_shared<PlayerModel>());
 
@@ -29,7 +29,7 @@ public:
         activityManager->push(std::make_unique<LevelActivity>());
     }
 
-    void handleEvent(sf::Event& event) {
+    void handleEvent(sf::Event & event) {
         activityManager->top()->handleEvent(event);
     }
 
@@ -47,13 +47,13 @@ public:
 
     void run() {
         sf::Clock clock;
-        while(window->isOpen()) {
+        while (window->isOpen()) {
             float time = clock.getElapsedTime().asMicroseconds();
             clock.restart();
             time = time / 500;
 
             sf::Event event;
-            while(window->pollEvent(event)) {
+            while (window->pollEvent(event)) {
                 if (event.type == sf::Event::Closed)
                     window->close();
 

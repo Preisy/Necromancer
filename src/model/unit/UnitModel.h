@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "utils/animation/AnimationManager.h"
-#include "presentation/model/ObjectModel.h"
+#include "model/ObjectModel.h"
 #include "utils/level/Object.h"
 #include "CharacterFaction.h"
 
@@ -68,6 +68,7 @@ public:
             }
         }
     }
+
     void collision(int dir, const std::list<std::shared_ptr<UnitModel>> & objects) {
         auto unitRect = getFloatRect();
         auto rect = sf::FloatRect(
