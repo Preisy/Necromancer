@@ -34,7 +34,7 @@
  <animation title="stay_a" delay="150">
   <cut w="22" x="22" y="79" h="47" row="1" col="1"/>
  </animation>
- <animation title="wak_s" delay="150">
+ <animation title="walk_s" delay="150">
   <cut w="32" x="80" y="143" h="48" row="1" col="1"/>
   <cut w="32" x="144" y="143" h="48" row="1" col="1"/>
   <cut w="32" x="208" y="144" h="48" row="1" col="1"/>

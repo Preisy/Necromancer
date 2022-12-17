@@ -6,6 +6,7 @@
 
 #include "utils/animation/AnimationManager.h"
 #include "presentation/model/FieldModel.h"
+#include "presentation/model/unit/CharacterFaction.h"
 
 
 class FireballSpell : public BulletModel, public std::enable_shared_from_this<FireballSpell> {
@@ -21,14 +22,16 @@ class FireballSpell : public BulletModel, public std::enable_shared_from_this<Fi
 
     std::unique_ptr<AnimationManager> animationManager = std::make_unique<AnimationManager>();
     std::shared_ptr<FieldModel> fieldModel = nullptr;
+    CharacterFaction senderFaction;
     std::list<std::shared_ptr<BulletModel>>::iterator fieldPos;
 
 public:
     explicit FireballSpell(
             float direction,
             const std::shared_ptr<FieldModel> & fieldModel,
-            sf::Vector2f start
-    ) : fieldModel(fieldModel), direction(direction) {
+            sf::Vector2f start,
+            CharacterFaction senderFaction
+    ) : fieldModel(fieldModel), direction(direction), senderFaction(senderFaction) {
         animationManager->loadFromXML(
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.xml)",
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.png)"
@@ -37,8 +40,10 @@ public:
         dx = speed * cos(direction);
         dy = -speed * sin(direction);
 
-        floatRect.left = start.x + 40 * cos(direction);
-        floatRect.top = start.y - 40 * sin(direction);
+        floatRect.left = start.x;
+        floatRect.top = start.y;
+//        floatRect.top -= 40 * sin(direction);
+//        floatRect.left += 40 * cos(direction);
 
         floatRect.left += size.x / 2;
 
@@ -101,6 +106,7 @@ private:
     bool hitIntersectedUnit() {
         for (const auto & unit: fieldModel->getUnitModels()) {
             if (unit == nullptr) continue;
+            if (unit->getCharacterFaction() == senderFaction) continue;
             if (unit->getFloatRect().intersects(getFloatRect())) {
                 unit->takeDamage(damage);
                 return true;

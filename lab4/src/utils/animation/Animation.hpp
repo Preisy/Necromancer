@@ -21,11 +21,11 @@ public:
 		loop=true;
 	}
 
-	void tick(float time)
+	void tick(float time, float speedK)
 	{
 		if (!isPlaying) return;
 
-		currentFrame += speed * time;
+		currentFrame += speed * speedK * time;
 
 		if (currentFrame > frames.size()) { currentFrame -= frames.size();
 		                                    if (!loop) {isPlaying=false; return;}

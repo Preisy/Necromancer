@@ -87,19 +87,19 @@ public:
     void handleState() {
         float shiftK = 1;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-            shiftK = 1.5;
+            shiftK = 1.4;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            playerModel->setDx(-0.1 * shiftK);
+            playerModel->setDx(-0.05 * shiftK);
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            playerModel->setDx(0.1 * shiftK);
+            playerModel->setDx(0.05 * shiftK);
         } else {
             playerModel->setDx(0);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            playerModel->setDy(0.1 * shiftK);
+            playerModel->setDy(0.05 * shiftK);
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            playerModel->setDy(-0.1 * shiftK);
+            playerModel->setDy(-0.05 * shiftK);
         } else {
             playerModel->setDy(0);
         }

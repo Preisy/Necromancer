@@ -15,6 +15,7 @@ public:
     float x = 0;
     float y = 0;
     sf::Texture t;
+    float speedK = 1;
 
     AnimationManager()
     {}
@@ -91,7 +92,7 @@ public:
 
     void loop(bool b=true) {animList[currentAnim].loop = b;}
 
-    void tick(float time){animList[currentAnim].tick(time);}
+    void tick(float time){animList[currentAnim].tick(time, speedK);}
 
     void pause() {animList[currentAnim].isPlaying=false;}
 

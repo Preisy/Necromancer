@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="50" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="106">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="50" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="139">
  <tileset firstgid="1" source="merged.tsx"/>
  <layer id="1" name="Слой тайлов 1" width="50" height="40">
   <data>
@@ -8101,5 +8101,37 @@
   <object id="102" name="solid" x="-5.33333" y="1268.67" width="1615.33" height="31.9997"/>
   <object id="104" name="solid" x="-16.5" y="-22.3333" width="21" height="1306"/>
   <object id="105" name="solid" x="1594.83" y="-25" width="21" height="1306"/>
+  <object id="106" name="path" x="626" y="659" width="58" height="278"/>
+  <object id="107" name="path" x="533" y="1016" width="58" height="105"/>
+  <object id="108" name="path" x="516" y="1121.5" width="87" height="99"/>
+  <object id="109" name="path" x="571.5" y="954.5" width="46" height="80"/>
+  <object id="110" name="path" x="600" y="925" width="53" height="41"/>
+  <object id="111" name="path" x="618" y="495" width="77" height="170"/>
+  <object id="112" name="path" x="543.167" y="365" width="32.3333" height="140"/>
+  <object id="113" name="path" x="607.5" y="426" width="31.6667" height="114"/>
+  <object id="114" name="path" x="637.5" y="464" width="33" height="31"/>
+  <object id="115" name="path" x="575.5" y="393.333" width="35" height="145.333"/>
+  <object id="116" name="path" x="510.833" y="331" width="33" height="146"/>
+  <object id="117" name="path" x="481.5" y="327" width="31.6667" height="122"/>
+  <object id="118" name="path" x="450.167" y="327.667" width="31.6667" height="83.3333"/>
+  <object id="119" name="path" x="418.833" y="327" width="31.6667" height="53.3333"/>
+  <object id="120" name="path" x="421.5" y="0.333333" width="85.6667" height="330"/>
+  <object id="121" name="path" x="505.833" y="143.667" width="224.333" height="72"/>
+  <object id="122" name="path" x="729.167" y="172" width="675" height="48"/>
+  <object id="123" name="path" x="929.167" y="70.6667" width="63.6663" height="248.667"/>
+  <object id="125" name="path" x="1188.5" y="72" width="215" height="241.333"/>
+  <object id="126" name="path" x="438.5" y="1239.83" width="37" height="42.3333"/>
+  <object id="127" name="path" x="471.833" y="1207.17" width="695" height="78.3333"/>
+  <object id="128" name="path" x="631.833" y="1172.5" width="569" height="36.3333"/>
+  <object id="129" name="path" x="1160.17" y="1206.17" width="37" height="47.6666"/>
+  <object id="130" name="path" x="915.833" y="725.5" width="283" height="449.667"/>
+  <object id="131" name="path" x="952.5" y="697.167" width="310" height="32.6666"/>
+  <object id="132" name="path" x="1197.5" y="725.167" width="65" height="341.667"/>
+  <object id="133" name="path" x="1190.5" y="1049.17" width="37" height="47.6666"/>
+  <object id="134" name="path" x="1072.5" y="662.167" width="122" height="38.6666"/>
+  <object id="135" name="path" x="1046.83" y="570.5" width="53.3333" height="43.6666"/>
+  <object id="136" name="path" x="1116.83" y="629.5" width="47" height="39.6666"/>
+  <object id="137" name="path" x="824.833" y="537.5" width="241.667" height="47.6666"/>
+  <object id="138" name="path" x="1073" y="591.5" width="49.3333" height="75.6666"/>
  </objectgroup>
 </map>

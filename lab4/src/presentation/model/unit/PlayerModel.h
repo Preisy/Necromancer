@@ -9,18 +9,21 @@
 #include "utils/animation/AnimationManager.h"
 #include "utils/StaticDots.h"
 
-class PlayerModel : public UnitModel {
-    float dx = 0;
-    float dy = 0;
-    sf::Vector2f size = {32, 64};
-    sf::Vector2f coords = {0, 0};
-    sf::Vector2f offset = {0, 0};
+class PlayerModel : public UnitModel, public std::enable_shared_from_this<PlayerModel> {
     std::shared_ptr<FieldModel> fieldModel = nullptr;
     float direction = -M_PI_2;
     std::unique_ptr<AnimationManager> animationManager = nullptr;
 
+    float health = 1500;
+    CharacterFaction faction = CharacterFaction::Player;
+    float damagedTime = 0;
+    bool isDamaged = false;
+
 public:
     explicit PlayerModel() {
+        size = {32, 64};
+        sizeReduction = {5, 48};
+
         animationManager = std::make_unique<AnimationManager>();
         animationManager->loadFromXML(R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.xml)",
                                      R"(D:\C\3sem_cpp\informatics\lab4\resources\units\player_walking.png)");
@@ -34,62 +37,57 @@ public:
         animationManager->setPosition(coords.x, coords.y + size.y);
     }
 
-    sf::Vector2f sizeReduction = {5, 48};
     sf::FloatRect getFloatRect() override {
-        return {coords.x + sizeReduction.x, coords.y + sizeReduction.y, size.x - sizeReduction.x, size.y - sizeReduction.y};
+        return {coords.x, coords.y, size.x, size.y};
+//        return {coords.x + sizeReduction.x, coords.y + sizeReduction.y, size.x - sizeReduction.x, size.y - sizeReduction.y};
     }
 
 public:
-    void collision(int dir, std::string && objectsName) {
-        auto rect = getFloatRect();
-        auto objects = fieldModel->getLevel().GetObjects(objectsName);
-        for (const auto & object: objects) {
-            if (!rect.intersects(object.rect)) continue;
 
-            if (dy < 0) {
-                int a = 0;
-            }
-            if (dir == 0 && dx > 0
-                && rect.left < object.rect.left
-                && rect.left + rect.width > object.rect.left
-            ) {
-                coords.x = object.rect.left - size.x;
-                break;
-            } else if (dir == 0 && dx < 0
-               && rect.left < object.rect.left + object.rect.width
-               && rect.left + rect.width > object.rect.left
-            ) {
-                coords.x = object.rect.left + object.rect.width - 5;
-                break;
-            } else if (dir == 1 && dy > 0
-                && rect.top < object.rect.top
-                && rect.top + rect.height > object.rect.top
-                    ) {
-                coords.y = object.rect.top - size.y;
-                break;
-            } else if (dir == 1 && dy < 0
-                       && rect.top < object.rect.top + object.rect.height
-                       && rect.top + rect.height > object.rect.top
-                    ) {
-                coords.y = object.rect.top + object.rect.height - sizeReduction.y;
-                break;
-            }
-        }
-    }
     void collisionX() {
-        collision(0, "solid");
-        collision(0, "sea");
+        collision(0, fieldModel->getLevel().GetObjects("solid"));
+        collision(0, fieldModel->getLevel().GetObjects("sea"));
+        collision(0, fieldModel->getUnitModels());
     }
 
     void collisionY() {
-        collision(1, "solid");
-        collision(1, "sea");
+        collision(1, fieldModel->getLevel().GetObjects("solid"));
+        collision(1, fieldModel->getLevel().GetObjects("sea"));
+        collision(1, fieldModel->getUnitModels());
+    }
+    float ifOnPath() {
+        auto unitRect = getFloatRect();
+        auto rect = sf::FloatRect(
+                unitRect.left + sizeReduction.x,
+                unitRect.top + sizeReduction.y,
+                unitRect.width - sizeReduction.x,
+                unitRect.height - sizeReduction.y
+        );
+        for (const auto & path: fieldModel->getLevel().GetObjects("path")) {
+            if (path.rect.intersects(rect)) {
+                animationManager->speedK = 1.35;
+                return 1.35;
+            }
+        }
+        animationManager->speedK = 1;
+        return 1;
     }
 
     void update(float time) override {
-        coords.x += dx * time;
+        if (isDamaged) {
+            damagedTime -= time;
+            if (damagedTime < 0) {
+                animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color::White);
+                isDamaged = false;
+            }
+        } else {
+            animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color::White);
+        }
+
+        float k = ifOnPath();
+        coords.x += dx * time * k;
         collisionX();
-        coords.y += dy * time;
+        coords.y += dy * time * k;
         collisionY();
         if (dx > 0) {
             animationManager->set("walk_d");
@@ -122,13 +120,21 @@ public:
         auto fireball = std::make_shared<FireballSpell>(
                 direction,
                 fieldModel,
-                sf::Vector2f(coords.x, coords.y + size.y / 2)
+                sf::Vector2f(coords.x, coords.y + size.y / 2),
+                faction
         );
         fireball->fire();
     }
 
     void takeDamage(float damage) override {
-        std::cout << "damaged" << std::endl;
+        health -= damage;
+        if (health < 0) {
+
+        } else {
+            isDamaged = true;
+            damagedTime = 500;
+            animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color(0xff3c3cff));
+        }
     }
 
     void addToField() override {
@@ -178,5 +184,9 @@ public:
 
     void setCoords(const sf::Vector2f & coords) {
         PlayerModel::coords = coords;
+    }
+
+    CharacterFaction getCharacterFaction() override {
+        return faction;
     }
 };

@@ -29,15 +29,6 @@ class Repository {
     SingletonRepository* instance = SingletonRepository::getInstance();
 
 public:
-//    std::optional<const Model &> insert(int id, Model && model) {
-//        auto res = instance->data.insert({id, std::make_shared<Model>(std::move(model))});
-//        if (bool status = res.second) {
-//            return {*res.first->second};
-//        } else {
-//            return {};
-//        }
-//    }
-
     bool insert(int id, std::shared_ptr<Model> && model) {
         auto res = instance->data.emplace(id, std::move(model));
         return res.second;

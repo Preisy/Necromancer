@@ -42,6 +42,7 @@ public:
         for (const auto & item : fieldModel->getUnitModels()) {
             objectView.draw(item, time);
         }
+        objectView.draw(*fieldModel->getUnitModels().begin(), time);
         for (const auto & item : fieldModel->getBulletModels()) {
             objectView.draw(item, time);
         }

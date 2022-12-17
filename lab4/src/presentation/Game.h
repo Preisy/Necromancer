@@ -24,7 +24,7 @@ public:
 
         playerRepository.insert(1, std::make_shared<PlayerModel>());
 
-        configureInjecting<FieldController>(2);
+        configureInjecting<FieldController>(1);
 
         activityManager->push(std::make_unique<LevelActivity>());
     }
