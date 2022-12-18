@@ -3,17 +3,19 @@
 #include <SFML/Graphics.hpp>
 #include "RenderWindowDI.h"
 #include "model/ObjectModel.h"
+#include "model/interactiveGameObject/InteractiveGameObject.h"
 
 class ObjectView {
     Injected<sf::RenderWindow> window;
 
 public:
     void draw(const std::shared_ptr<ObjectModel> & unitEntity, float time) {
-//        std::cout << unitEntity->getAnimationManager().animList[unitEntity->getAnimationManager().currentAnim].currentFrame << std::endl;
-//        unitEntity->getAnimationManager().animList[unitEntity->getAnimationManager().currentAnim].sprite.setPosition(200,200);
         unitEntity->getAnimationManager()->tick(time);
-
         unitEntity->getAnimationManager()->draw(*window);
+    }
+
+    void draw(const std::shared_ptr<InteractiveGameObject> & interactiveGameObject, float time) {
+        window->draw(*interactiveGameObject->getSprite());
     }
 };
 

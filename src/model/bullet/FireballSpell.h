@@ -10,7 +10,7 @@
 
 
 class FireballSpell : public BulletModel, public std::enable_shared_from_this<FireballSpell> {
-    float damage = 25;
+    float damage;
     float speed = 0.1;
     float dx = 0;
     float dy = 0;
@@ -30,8 +30,9 @@ public:
             const std::shared_ptr<FieldModel> & fieldModel,
             sf::Vector2f start,
             CharacterFaction senderFaction,
-            float delayToStart
-    ) : fieldModel(fieldModel), senderFaction(senderFaction), delay(delayToStart) {
+            float delayToStart,
+            float damage = 25
+    ) : fieldModel(fieldModel), senderFaction(senderFaction), delay(delayToStart), damage(damage) {
         animationManager->loadFromXML(
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.xml)",
                 R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.png)"

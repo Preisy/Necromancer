@@ -8,12 +8,15 @@
 #include "utils/observer/Subject.h"
 #include "utils/level/Level.h"
 #include "model/bullet/BulletModel.h"
+#include "model/interactiveGameObject/InteractiveGameObject.h"
 
 class FieldModel {
     std::vector<std::vector<sf::Vector2f>> tileCoords;
     std::list<std::shared_ptr<UnitModel>> unitModels;
     std::list<std::shared_ptr<UnitModel>> deadUnitModels;
     std::list<std::shared_ptr<BulletModel>> bulletModels;
+    std::list<std::shared_ptr<InteractiveGameObject>> interactiveGameObjects;
+
     Level lvl;
     sf::Vector2f offset = {0, 0};
     int fieldId;
@@ -44,12 +47,12 @@ public:
 
     void update(float time) {
         for (const auto & unitModel: unitModels) {
-            unitModel->update(time);
+            if (unitModel != nullptr)
+                unitModel->update(time);
         }
-
-
         for (auto & bulletModel: bulletModels) {
-            bulletModel->update(time);
+            if (bulletModel != nullptr)
+                bulletModel->update(time);
         }
         for (auto it = bulletModels.begin(); it != bulletModels.end(); ++it) {
             if (*it == nullptr) {
@@ -57,13 +60,26 @@ public:
                 --it;
             }
         }
-
         for (auto it = unitModels.begin(); it != unitModels.end(); ++it) {
             if (*it == nullptr) {
                 it = unitModels.erase(it);
                 --it;
             }
         }
+        for (auto it = deadUnitModels.begin(); it != deadUnitModels.end(); ++it) {
+            if (*it == nullptr) {
+                it = deadUnitModels.erase(it);
+                --it;
+            }
+        }
+        for (auto it = interactiveGameObjects.begin(); it != interactiveGameObjects.end(); ++it) {
+            if (*it == nullptr) {
+                it = interactiveGameObjects.erase(it);
+                --it;
+            }
+        }
+
+//        std::cout << interactiveGameObjects.size() << std::endl;
 //        for (const auto & bulletModel: bulletModels) {
 //            bulletModel->update(time);
 //        }
@@ -91,6 +107,10 @@ public:
         for (const auto & deadUnitModel: deadUnitModels) {
             deadUnitModel->setOffset(offset.x, offset.y);
         }
+
+        for (const auto & interactiveGameObject: interactiveGameObjects) {
+            interactiveGameObject->setOffset(offset.x, offset.y);
+        }
     }
 
     sf::Vector2f getPlayerCoords() {
@@ -115,9 +135,16 @@ public:
         return bulletModels.insert(bulletModels.end(), bulletModel);
     }
 
-    auto eraseBullet(std::list<std::shared_ptr<BulletModel>>::iterator iter) {
+    void eraseBullet(std::list<std::shared_ptr<BulletModel>>::iterator iter) {
         *iter = nullptr;
-        return 1;
+    }
+
+    auto addInteractiveGameObject(const std::shared_ptr<InteractiveGameObject> & obj) {
+        return interactiveGameObjects.insert(interactiveGameObjects.end(), obj);
+    }
+
+    void eraseInteractiveGameObject(std::list<std::shared_ptr<InteractiveGameObject>>::iterator iter) {
+        *iter = nullptr;
     }
 
     const sf::Vector2f & getOffset() const {
@@ -141,6 +168,11 @@ public:
     [[nodiscard]]
     const std::list<std::shared_ptr<UnitModel>> & getDeadUnitModels() const {
         return deadUnitModels;
+    }
+
+    [[nodiscard]]
+    const std::list<std::shared_ptr<InteractiveGameObject>> & getInteractiveGameObjects() const {
+        return interactiveGameObjects;
     }
 
     int getFieldId() const {

@@ -65,25 +65,56 @@ public:
             if (event.key.code == sf::Keyboard::Space) {
                 playerModel->fire();
             }
+            if (event.key.code == sf::Keyboard::F) {
+                auto interactive = getNearestInteractive<UnitModel>(fieldModel->getDeadUnitModels());
+                if (interactive.first <= 100) {
+                    if (interactive.second != nullptr)
+                        interactive.second->wither();
+                }
+            }
             if (event.key.code == sf::Keyboard::E) {
-                std::string interactiveName = getInteractive();
+                auto interactive = getNearestInteractive<InteractiveGameObject>(fieldModel->getInteractiveGameObjects());
+                if (interactive.first <= 100) {
+                    if (std::dynamic_pointer_cast<HealthPotion>(interactive.second) != nullptr) {
+                        auto p = std::dynamic_pointer_cast<HealthPotion>(interactive.second);
+                        playerModel->addHealth(p->extract());
+                    } else if (std::dynamic_pointer_cast<ManaPotion>(interactive.second) != nullptr) {
+                        auto p = std::dynamic_pointer_cast<ManaPotion>(interactive.second);
+                        playerModel->addMana(p->extract());
+                    }
+                }
             }
         }
     }
 
 private:
-    std::string getInteractive() {
-        return "";
-    }
-
-    std::string getIntersectedInteractor() {
+    template<class Object, class Container>
+    std::pair<int, std::shared_ptr<Object>> getNearestInteractive(const Container & objects) {
         auto playerRect = playerModel->getFloatRect();
-        for (const auto & object: fieldModel->getLevel().getObjects()) {
-            if (playerRect.intersects(object.rect)) {
-                return object.name;
+        float minR = std::numeric_limits<float>::max();
+        std::shared_ptr<Object> nearestObject = nullptr;
+        for (const auto & object: objects) {
+            auto objectRect = object->getFloatRect();
+            float r = sqrt(
+                    pow(objectRect.left - (playerRect.left + playerRect.width / 2), 2) +
+                    pow(objectRect.top - (playerRect.top + playerRect.height / 2), 2)
+            );
+            if (minR > r) {
+                minR = r;
+                nearestObject = object;
             }
         }
-        return "";
+        return {minR, nearestObject};
+    }
+
+    Object isIntersectedWithInteractive(const std::string & interactiveName) {
+        auto playerRect = playerModel->getFloatRect();
+        for (const auto & object: fieldModel->getLevel().GetObjects(interactiveName)) {
+            if (playerRect.intersects(object.rect)) {
+                return object;
+            }
+        }
+        return {};
     }
 
 public:
@@ -107,10 +138,9 @@ public:
             playerModel->setDy(0);
         }
         auto mousePos = sf::Mouse::getPosition(*Injected<sf::RenderWindow>());
-        playerModel->setDirection({
-                                          mousePos.x * windowWidth / changedWindowWidth,
-                                          mousePos.y * windowHeight / changedWindowHeight
-                                  });
+        playerModel->setDirection(
+                {mousePos.x * windowWidth / changedWindowWidth, mousePos.y * windowHeight / changedWindowHeight}
+        );
     }
 
     void update(float time) {
@@ -134,9 +164,8 @@ public:
 
         fieldModel->setOffset(x, y);
 
-        std::string intersectedInteractiveName = getIntersectedInteractor();
-        if (intersectedInteractiveName == "field") {
-            int fieldId = fieldModel->getLevel().GetObject(intersectedInteractiveName).GetPropertyInt("fieldId");
+        if (Object obj = isIntersectedWithInteractive("field"); !obj.name.empty()) {
+            int fieldId = obj.GetPropertyInt("fieldId");
             saveField(fieldModel->getFieldId());
             setNewField(fieldId);
         }
@@ -145,6 +174,11 @@ public:
     [[nodiscard]]
     const std::shared_ptr<FieldModel> & getFieldModel() const {
         return fieldModel;
+    }
+
+    [[nodiscard]]
+    const std::shared_ptr<PlayerModel> & getPlayerModel() const {
+        return playerModel;
     }
 };
 

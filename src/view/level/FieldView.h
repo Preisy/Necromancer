@@ -13,37 +13,25 @@
 
 class FieldView {
     Injected<sf::RenderWindow> window;
-    Injected<FieldController> fieldController;
     ObjectView objectView;
 
 public:
-    void handleEvent(sf::Event & event) {
-        fieldController->handleEvent(event);
-    }
-
-    void handleState() {
-        fieldController->handleState();
-    }
-
-    void update(float time) {
-        fieldController->update(time);
-    }
-
-
-    void draw(float time) {
-        const std::shared_ptr<FieldModel> & fieldModel = fieldController->getFieldModel();
+    void draw(const std::shared_ptr<FieldModel> & fieldModel, float time) {
         fieldModel->getLevel().Draw(*window);
 
+        for (const auto & item: fieldModel->getDeadUnitModels())
+            objectView.draw(item, time);
 
-        for (const auto & item: fieldModel->getDeadUnitModels()) {
+        for (const auto & item: fieldModel->getUnitModels())
             objectView.draw(item, time);
-        }
-        for (const auto & item: fieldModel->getUnitModels()) {
-            objectView.draw(item, time);
-        }
+
+        for (const auto & object: fieldModel->getInteractiveGameObjects())
+            objectView.draw(object, time);
+
         objectView.draw(*fieldModel->getUnitModels().begin(), time);
-        for (const auto & item: fieldModel->getBulletModels()) {
+
+        for (const auto & item: fieldModel->getBulletModels())
             objectView.draw(item, time);
-        }
+
     }
 };

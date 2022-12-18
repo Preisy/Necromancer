@@ -3,18 +3,22 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
-#include "UnitModel.h"
-#include "model/bullet/FireballSpell.h"
-#include "model/FieldModel.h"
+
 #include "utils/animation/AnimationManager.h"
 #include "utils/StaticDots.h"
+#include "model/unit/UnitModel.h"
+#include "model/bullet/FireballSpell.h"
+#include "model/FieldModel.h"
 
 class PlayerModel : public UnitModel, public std::enable_shared_from_this<PlayerModel> {
     std::shared_ptr<FieldModel> fieldModel = nullptr;
     float direction = -M_PI_2;
     std::unique_ptr<AnimationManager> animationManager = nullptr;
 
-    float health = 1500;
+    float maxHealth = 150;
+    float maxMana = 200;
+    float health = maxHealth;
+    float mana = maxMana;
     CharacterFaction faction = CharacterFaction::Player;
     float damagedTime = 0;
     bool isDamaged = false;
@@ -36,6 +40,7 @@ public:
         this->fieldModel = fieldModel;
         animationManager->setPosition(coords.x, coords.y + size.y);
     }
+    void addToField() override {}
 
     sf::FloatRect getFloatRect() override {
         return {coords.x, coords.y, size.x, size.y};
@@ -85,6 +90,9 @@ public:
             animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color::White);
         }
 
+        if (mana > maxMana) mana = maxMana;
+        mana += 0.01;
+
         float k = ifOnPath();
         coords.x += dx * time * k;
         collisionX();
@@ -118,30 +126,35 @@ public:
     }
 
     void fire() {
+        if (mana < 0) {
+            mana = 0;
+            return;
+        }
+        mana -= 10;
         auto fireball = std::make_shared<FireballSpell>(
                 direction,
                 fieldModel,
                 sf::Vector2f(coords.x, coords.y + size.y / 2),
                 faction,
-                500
+                500,
+                10
         );
         fireball->fire();
     }
 
     void takeDamage(float damage) override {
-        health -= damage;
         if (health < 0) {
-
+            health = 0;
         } else {
+            health -= damage;
+
             isDamaged = true;
             damagedTime = 500;
             animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color(0xff3c3cff));
         }
     }
 
-    void addToField() override {
-
-    }
+    void wither() override {}
 
 
     void setDirection(sf::Vector2i mousePos) {
@@ -190,5 +203,31 @@ public:
 
     CharacterFaction getCharacterFaction() override {
         return faction;
+    }
+
+    float getHealth() const {
+        return health;
+    }
+
+    void addHealth(float dHealth) {
+        health += dHealth;
+        if (health > maxHealth) health = maxHealth;
+    }
+
+    float getMana() const {
+        return mana;
+    }
+
+    void addMana(float dMana) {
+        mana += dMana;
+        if (mana > maxMana) mana = maxMana;
+    }
+
+    float getMaxHealth() const {
+        return maxHealth;
+    }
+
+    float getMaxMana() const {
+        return maxMana;
     }
 };

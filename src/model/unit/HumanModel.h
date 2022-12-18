@@ -8,6 +8,8 @@
 #include "utils/StaticDots.h"
 #include "model/FieldModel.h"
 #include "model/bullet/FireballSpell.h"
+#include "model/interactiveGameObject/HealthPotion.h"
+#include "model/interactiveGameObject/ManaPotion.h"
 
 class HumanModel : public UnitModel, public std::enable_shared_from_this<HumanModel> {
     std::unique_ptr<AnimationManager> animationManager = std::make_unique<AnimationManager>();
@@ -15,10 +17,11 @@ class HumanModel : public UnitModel, public std::enable_shared_from_this<HumanMo
     std::shared_ptr<FieldModel> fieldModel;
     std::list<std::shared_ptr<UnitModel>>::iterator fieldPos;
 
-    float health = 100;
-    CharacterFaction faction = CharacterFaction::Human;
     float damagedTime = 0;
     bool isDamaged = false;
+
+    float health = 100;
+    CharacterFaction faction = CharacterFaction::Human;
     float speed = 0.02;
     float fireInterval = 2000;
     float timeToShot = fireInterval;
@@ -35,12 +38,38 @@ public:
         animationManager->loadFromXML(R"(D:\C\3sem_cpp\Necromancer\resources\units\human.xml)",
                                       R"(D:\C\3sem_cpp\Necromancer\resources\units\human.png)");
         animationManager->set("stay_s");
-//        animationManager->set("fire_d");
         animationManager->play();
     }
 
     void addToField() override {
         fieldPos = fieldModel->addUnit(shared_from_this());
+    }
+
+    void wither() override {
+        for (int i = 0; i < 2; ++i) {
+            float angle = float(std::rand() % int(3.14 * 100)) / 100;
+            std::cout << angle << " a" << std::endl;
+            float x = coords.x + 16 * cos(angle);
+            float y = coords.y + 16 * sin(angle);
+            auto healthPotion = std::make_shared<HealthPotion>(
+                    sf::Vector2f(x, y),
+                    HealthPotion::Level::Junior
+            );
+            healthPotion->addToField(fieldModel);
+        }
+
+        for (int i = 0; i < 2; ++i) {
+            float angle = std::rand() % int(3.14 * 100) / 100;
+            std::cout << angle << " a" << std::endl;
+            float x = coords.x + 16 * cos(angle);
+            float y = coords.y + 16 * sin(angle);
+            auto manaPotion = std::make_shared<ManaPotion>(
+                    sf::Vector2f(x, y),
+                    ManaPotion::Level::Junior
+            );
+            manaPotion->addToField(fieldModel);
+        }
+        fieldModel->eraseUnit(fieldPos);
     }
 
     void update(float time) override {
@@ -61,9 +90,9 @@ public:
         );
 
 
-        auto isFireAnimationPlay = animationManager->isPlaying() &&
-                                   animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) ==
-                                   "fire_";
+        auto isFireAnimationPlay =
+                animationManager->isPlaying() &&
+                animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
 
         if (r >= 400) {
             if (!isFireAnimationPlay)
@@ -73,9 +102,9 @@ public:
 
         fire(time, playerCoords);
 
-        isFireAnimationPlay = animationManager->isPlaying() &&
-                              animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) ==
-                              "fire_";
+        isFireAnimationPlay =
+                animationManager->isPlaying() &&
+                animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
 
         if (r <= 200) {
             if (!isFireAnimationPlay)
@@ -183,8 +212,10 @@ public:
     void takeDamage(float damage) override {
         health -= damage;
         if (health <= 0) {
-            fieldModel->addDeadUnit(shared_from_this());
+            std::list<std::shared_ptr<UnitModel>>::iterator it;
+            it = fieldModel->addDeadUnit(shared_from_this());
             fieldModel->eraseUnit(fieldPos);
+            fieldPos = it;
             animationManager->set("fall_down");
             animationManager->play();
             animationManager->loop(false);
