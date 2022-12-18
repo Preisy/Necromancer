@@ -4,8 +4,8 @@
 
 
 GameOverActivity::GameOverActivity()
-        : restartButton("restart", [this]() { restart(); }, 300),
-          exitButton("exit", [this]() { exit(); }, 400) {
+        : restartButton("Restart    ", [this]() { restart(); }, 300),
+          exitButton("Exit", [this]() { exit(); }, 400) {
     backgroundTexture.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\game_over_background.png)");
     backgroundSprite.setTexture(backgroundTexture);
     backgroundMask.setFillColor(sf::Color(0x00000088));

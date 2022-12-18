@@ -20,19 +20,21 @@ public:
             std::function<void()> callbackClick,
             float y
     ) : callback(std::move(callbackClick)) {
-        font.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\arial.ttf)");
+        font.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\retro-land-mayhem.ttf)");
         text = sf::Text(str, font);
+        text.setStyle(sf::Text::Bold);
 
-        background.setFillColor(sf::Color(0x7b7b7bff));
+        background.setFillColor(sf::Color(0xfade3dff));
         background.setOutlineColor(sf::Color(0x010101ff));
-        background.setOutlineThickness(3);
+        text.setFillColor(sf::Color(0x010101ff));
+        background.setOutlineThickness(5);
         auto r = text.getLocalBounds();
-        float textSize = r.width*k + 50;
+        float textSize = r.width*k + 52;
         background.setSize({textSize, 43});
 
         float x = (float(windowWidth) - float(textSize)) / 2;
         background.setPosition(x - 10, y);
-        text.setPosition(x, y);
+        text.setPosition(x, y + 2);
 
         rect = {x-30 - 10, y, textSize, 43};
     };
@@ -55,9 +57,9 @@ public:
         auto mousePos = sf::Mouse::getPosition(*window);
         auto mouseCoords = sf::Vector2f(float(mousePos.x) * k, float(mousePos.y) * k);
         if (rect.contains(mouseCoords.x, mouseCoords.y)) {
-            background.setFillColor(sf::Color(0x7b7b7b00));
+            background.setFillColor(sf::Color(0xfade3dcc));
         } else {
-            background.setFillColor(sf::Color(0x7b7b7bff));
+            background.setFillColor(sf::Color(0xfade3dff));
         }
     }
 
