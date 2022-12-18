@@ -67,5 +67,9 @@ public:
         return res;
     }
 
+    void eraseAll() {
+        *instance->data.erase(instance->data.begin(), instance->data.end());
+    }
+
     ~Repository() = default;
 };

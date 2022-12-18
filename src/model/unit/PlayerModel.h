@@ -28,6 +28,7 @@ public:
     }
 
     void setField(const std::shared_ptr<FieldModel> & fieldModel) {
+        if (fieldModel == nullptr) return;
         coords = fieldModel->getPlayerCoords();
         this->fieldModel = fieldModel;
         animationManager->setPosition(coords.x, coords.y + size.y);
@@ -148,6 +149,10 @@ public:
         direction = 0 - (float) atan2((mousePos.y - relativePlayerCoords.y + size.y / 2),
                                       (mousePos.x - relativePlayerCoords.x - size.x / 2));
         StaticDots::setPos("mouse", mousePos.x, mousePos.y);
+    }
+
+    bool isAlive() const {
+        return health > 0;
     }
 
 

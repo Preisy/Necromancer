@@ -9,20 +9,29 @@
 class ActivityManager {
     std::stack<std::unique_ptr<Activity>> activities;
 
+    bool isPoped = false;
 public:
     void push(std::unique_ptr<Activity> && el) {
+        if (isPoped) {
+            activities.pop();
+            isPoped = false;
+        }
         activities.push(std::move(el));
     }
 
     auto top() -> decltype(auto) {
+        if (isPoped) {
+            activities.pop();
+            isPoped = false;
+        }
         return activities.top();
     }
 
-    auto pop() -> decltype(auto) {
-        return activities.pop();
+    void pop() {
+        isPoped = true;
     }
 
-    auto empty() {
+    bool empty() {
         return activities.empty();
     }
 

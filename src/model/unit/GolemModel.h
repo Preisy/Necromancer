@@ -116,7 +116,7 @@ private:
 
 public:
     void takeDamage(float _damage) override {
-        health -= damage;
+        health -= _damage;
         if (health <= 0) {
             std::list<std::shared_ptr<UnitModel>>::iterator it;
             it = fieldModel->addDeadUnit(shared_from_this());

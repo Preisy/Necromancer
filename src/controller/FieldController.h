@@ -4,6 +4,8 @@
 #include <memory>
 //#include <cmath>
 
+#include "utils/activity/ActivityManager.h"
+#include "view/gameOverActivity/GameOverActivity.h"
 #include "data/Repository.h"
 #include "model/FieldModel.h"
 #include "model/unit/PlayerModel.h"
@@ -13,6 +15,7 @@
 
 
 class FieldController {
+    Injected<ActivityManager> activityManager;
     std::shared_ptr<FieldModel> fieldModel = nullptr;
     std::shared_ptr<PlayerModel> playerModel = nullptr;
     Repository<FieldModel> fieldRepository;
@@ -29,6 +32,15 @@ public:
             throw std::runtime_error("player does not exist while field controller");
 
         setNewField(fieldId);
+    }
+
+    void resetGame() {
+        playerModel->setField(nullptr);
+        fieldModel = nullptr;
+        fieldRepository.eraseAll();
+        playerRepository.erase(1);
+        playerRepository.insert(1, std::make_shared<PlayerModel>());
+//        activityManager->pop();
     }
 
 private:
@@ -154,6 +166,11 @@ public:
 
     void update(float time) {
         fieldModel->update(time);
+
+        if (!playerModel->isAlive()) {
+            activityManager->push(std::make_unique<GameOverActivity>());
+            return;
+        }
 
         auto playerCoords = playerModel->getCoords();
         auto playerSize = playerModel->getSize();
