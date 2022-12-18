@@ -26,7 +26,6 @@ void GameOverActivity::restart() {
     Injected<FieldController> f;
     f->resetGame();
     configureInjecting<FieldController>(1);
-    std::cout << "restart" << std::endl;
     activityManager->pop();
 }
 

@@ -73,6 +73,9 @@ public:
     }
 
     void update(float time) override {
+        if (health < 0) {
+            return;
+        }
         if (isDamaged) {
             damagedTime -= time;
             if (damagedTime < 0) {
@@ -134,7 +137,10 @@ public:
 
     void takeDamage(float damage) override {
         health -= damage;
-        if (health < 0) health = 0;
+        if (health < 0) {
+            animationManager->set("fall_down");
+            animationManager->loop(false);
+        };
 
         isDamaged = true;
         damagedTime = 500;
@@ -152,7 +158,7 @@ public:
     }
 
     bool isAlive() const {
-        return health > 0;
+        return !(animationManager->currentAnim == "fall_down" && !animationManager->isPlaying());
     }
 
 
