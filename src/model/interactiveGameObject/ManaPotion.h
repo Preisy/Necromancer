@@ -30,7 +30,7 @@ public:
             t.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\interactiveGameObjects\potion\mana\mana_potion_middle.png)");
             mana = 50;
         } else if (manaLevel == Senior) {
-            t.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\interactiveGameObjects\potion\mana\mana_potion_middle.png)");
+            t.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\interactiveGameObjects\potion\mana\mana_potion_senior.png)");
             mana = 70;
         }
         sprite->setTexture(t);

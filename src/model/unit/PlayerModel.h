@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <cmath>
 
 #include "utils/animation/AnimationManager.h"
 #include "utils/StaticDots.h"
@@ -13,10 +12,9 @@
 class PlayerModel : public UnitModel, public std::enable_shared_from_this<PlayerModel> {
     std::shared_ptr<FieldModel> fieldModel = nullptr;
     float direction = -M_PI_2;
-    std::unique_ptr<AnimationManager> animationManager = nullptr;
 
     float maxHealth = 150;
-    float maxMana = 200;
+    float maxMana = 10000;
     float health = maxHealth;
     float mana = maxMana;
     CharacterFaction faction = CharacterFaction::Player;
@@ -24,15 +22,9 @@ class PlayerModel : public UnitModel, public std::enable_shared_from_this<Player
     bool isDamaged = false;
 
 public:
-    explicit PlayerModel() {
+    explicit PlayerModel() : UnitModel("player") {
         size = {32, 64};
         sizeReduction = {5, 48};
-
-        animationManager = std::make_unique<AnimationManager>();
-        animationManager->loadFromXML(R"(D:\C\3sem_cpp\Necromancer\resources\units\player_walking.xml)",
-                                      R"(D:\C\3sem_cpp\Necromancer\resources\units\player_walking.png)");
-        animationManager->set("walk_w");
-        animationManager->play();
     }
 
     void setField(const std::shared_ptr<FieldModel> & fieldModel) {
@@ -119,15 +111,12 @@ public:
         }
     }
 
-    void setOffset(float x, float y) override {
-        this->offset.x = x;
-        this->offset.y = y;
-        animationManager->setPosition(coords.x - offset.x, coords.y - offset.y + size.y);
-    }
 
     void fire() {
         if (mana < 0) {
             mana = 0;
+            return;
+        } else if (mana - 10 < 0) {
             return;
         }
         mana -= 10;
@@ -143,15 +132,12 @@ public:
     }
 
     void takeDamage(float damage) override {
-        if (health < 0) {
-            health = 0;
-        } else {
-            health -= damage;
+        health -= damage;
+        if (health < 0) health = 0;
 
-            isDamaged = true;
-            damagedTime = 500;
-            animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color(0xff3c3cff));
-        }
+        isDamaged = true;
+        damagedTime = 500;
+        animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color(0xff3c3cff));
     }
 
     void wither() override {}

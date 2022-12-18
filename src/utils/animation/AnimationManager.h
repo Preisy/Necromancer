@@ -57,7 +57,14 @@ public:
                 cut = cut->NextSiblingElement("cut");
             }
 
-            anim.sprite.setOrigin(0, anim.frames[0].height);
+            auto originH = anim.frames[0].height;
+            for (const auto & frame: anim.frames) {
+                if (originH < frame.height) {
+                    originH = frame.height;
+                }
+            }
+
+            anim.sprite.setOrigin(0, originH);
 
             animList[currentAnim] = anim;
             animElement = animElement->NextSiblingElement("animation");

@@ -9,6 +9,7 @@
 #include "model/unit/PlayerModel.h"
 #include "config.h"
 #include "model/unit/HumanModel.h"
+#include "model/unit/GolemModel.h"
 
 
 class FieldController {
@@ -37,8 +38,11 @@ private:
 
     void setNewField(int fieldId) {
         fieldModel = fieldRepository.find(fieldId);
-        if (fieldModel == nullptr) {
+        if (fieldModel != nullptr) {
+            playerModel->setField(fieldModel);
+        } else {
             fieldModel = std::make_shared<FieldModel>(fieldId, playerModel);
+            playerModel->setField(fieldModel);
 
             for (const auto & object: fieldModel->getLevel().GetObjects("human")) {
                 std::make_shared<HumanModel>(
@@ -46,8 +50,13 @@ private:
                         fieldModel
                 )->addToField();
             }
+            for (const auto & object: fieldModel->getLevel().GetObjects("golem")) {
+                std::make_shared<GolemModel>(
+                        sf::Vector2f(object.rect.left, object.rect.top),
+                        fieldModel
+                )->addToField();
+            }
         }
-        playerModel->setField(fieldModel);
 
 
         update(0); // todo зачем то точно нужно было

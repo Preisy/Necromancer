@@ -1,0 +1,92 @@
+<!DOCTYPE SpriteDecomposer>
+<sprites image="golem.png" transparentColor="">
+ <animation title="stay_w" delay="300">
+  <cut w="43" x="13" y="10" h="59" row="1" col="1"/>
+ </animation>
+ <animation title="stay_a" delay="300">
+  <cut w="31" x="28" y="77" h="60" row="1" col="1"/>
+ </animation>
+ <animation title="stay_s" delay="300">
+  <cut w="43" x="13" y="138" h="59" row="1" col="1"/>
+ </animation>
+ <animation title="stay_d" delay="300">
+  <cut w="31" x="9" y="205" h="59" row="1" col="1"/>
+ </animation>
+ <animation title="walk_w" delay="300">
+  <cut w="43" x="77" y="10" h="61" row="1" col="1"/>
+  <cut w="43" x="141" y="11" h="61" row="1" col="1"/>
+  <cut w="43" x="205" y="10" h="61" row="1" col="1"/>
+  <cut w="43" x="269" y="10" h="61" row="1" col="1"/>
+  <cut w="43" x="333" y="11" h="61" row="1" col="1"/>
+  <cut w="43" x="397" y="10" h="61" row="1" col="1"/>
+ </animation>
+ <animation title="walk_a" delay="300">
+  <cut w="31" x="28" y="77" h="59" row="1" col="1"/>
+  <cut w="29" x="93" y="77" h="59" row="1" col="1"/>
+  <cut w="36" x="152" y="78" h="58" row="1" col="1"/>
+  <cut w="31" x="220" y="77" h="59" row="1" col="1"/>
+  <cut w="38" x="279" y="77" h="59" row="1" col="1"/>
+  <cut w="46" x="339" y="78" h="58" row="1" col="1"/>
+  <cut w="37" x="408" y="77" h="59" row="1" col="1"/>
+ </animation>
+ <animation title="walk_s" delay="300">
+  <cut w="43" x="77" y="138" h="60" row="1" col="1"/>
+  <cut w="43" x="141" y="139" h="62" row="1" col="1"/>
+  <cut w="43" x="205" y="138" h="62" row="1" col="1"/>
+  <cut w="43" x="269" y="138" h="60" row="1" col="1"/>
+  <cut w="43" x="333" y="139" h="62" row="1" col="1"/>
+  <cut w="43" x="397" y="138" h="62" row="1" col="1"/>
+ </animation>
+ <animation title="walk_d" delay="300">
+  <cut w="29" x="74" y="205" h="59" row="1" col="1"/>
+  <cut w="36" x="136" y="206" h="58" row="1" col="1"/>
+  <cut w="31" x="201" y="205" h="59" row="1" col="1"/>
+  <cut w="38" x="263" y="205" h="59" row="1" col="1"/>
+  <cut w="46" x="323" y="206" h="58" row="1" col="1"/>
+  <cut w="37" x="391" y="205" h="59" row="1" col="1"/>
+ </animation>
+ <animation title="fall_down" delay="300">
+  <cut w="43" x="10" y="353" h="59" row="1" col="1"/>
+  <cut w="44" x="73" y="353" h="59" row="1" col="1"/>
+  <cut w="44" x="137" y="353" h="59" row="1" col="1"/>
+  <cut w="44" x="201" y="353" h="59" row="1" col="1"/>
+  <cut w="44" x="265" y="353" h="59" row="1" col="1"/>
+  <cut w="44" x="329" y="353" h="59" row="1" col="1"/>
+ </animation>
+ <animation title="hit_d" delay="450">
+  <cut w="31" x="15" y="735" h="71" row="1" col="1"/>
+  <cut w="31" x="81" y="735" h="71" row="1" col="1"/>
+  <cut w="26" x="145" y="735" h="71" row="1" col="1"/>
+  <cut w="33" x="201" y="735" h="71" row="1" col="1"/>
+  <cut w="53" x="275" y="735" h="71" row="1" col="1"/>
+  <cut w="42" x="339" y="735" h="71" row="1" col="1"/>
+  <cut w="36" x="403" y="735" h="71" row="1" col="1"/>
+ </animation>
+ <animation title="hit_s" delay="450">
+  <cut w="43" x="19" y="638" h="69" row="1" col="1"/>
+  <cut w="39" x="85" y="638" h="69" row="1" col="1"/>
+  <cut w="39" x="149" y="638" h="69" row="1" col="1"/>
+  <cut w="39" x="213" y="638" h="69" row="1" col="1"/>
+  <cut w="39" x="277" y="638" h="73" row="1" col="1"/>
+  <cut w="39" x="341" y="638" h="72" row="1" col="1"/>
+  <cut w="39" x="405" y="638" h="69" row="1" col="1"/>
+ </animation>
+ <animation title="hit_a" delay="450">
+  <cut w="31" x="34" y="543" h="71" row="1" col="1"/>
+  <cut w="31" x="96" y="543" h="71" row="1" col="1"/>
+  <cut w="26" x="165" y="543" h="71" row="1" col="1"/>
+  <cut w="33" x="230" y="543" h="71" row="1" col="1"/>
+  <cut w="53" x="264" y="543" h="71" row="1" col="1"/>
+  <cut w="42" x="339" y="543" h="71" row="1" col="1"/>
+  <cut w="36" x="409" y="543" h="71" row="1" col="1"/>
+ </animation>
+ <animation title="hit_w" delay="450">
+  <cut w="43" x="19" y="447" h="68" row="1" col="1"/>
+  <cut w="43" x="83" y="447" h="68" row="1" col="1"/>
+  <cut w="43" x="147" y="447" h="68" row="1" col="1"/>
+  <cut w="43" x="211" y="447" h="68" row="1" col="1"/>
+  <cut w="39" x="277" y="447" h="68" row="1" col="1"/>
+  <cut w="39" x="341" y="447" h="68" row="1" col="1"/>
+  <cut w="39" x="405" y="447" h="68" row="1" col="1"/>
+ </animation>
+</sprites>

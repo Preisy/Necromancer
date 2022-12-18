@@ -1,13 +1,18 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
+
 #include "utils/animation/AnimationManager.h"
 #include "model/ObjectModel.h"
 #include "utils/level/Object.h"
+
 #include "CharacterFaction.h"
 
 class UnitModel : public ObjectModel {
 protected:
+    std::unique_ptr<AnimationManager> animationManager = std::make_unique<AnimationManager>();;
+
     sf::Vector2f coords = {0, 0};
     sf::Vector2f sizeReduction = {0, 0};
     sf::Vector2f size = {0, 0};
@@ -15,22 +20,34 @@ protected:
 
     float dx = 0;
     float dy = 0;
-public:
-    virtual void update(float time) = 0;
 
-    virtual void setOffset(float x, float y) = 0;
+    explicit UnitModel(const std::string & spriteListName) {
+        animationManager->loadFromXML(R"(D:\C\3sem_cpp\Necromancer\resources\units\)" + spriteListName + ".xml",
+                                      R"(D:\C\3sem_cpp\Necromancer\resources\units\)" + spriteListName + ".png");
+        animationManager->set("stay_s");
+        animationManager->play();
+    }
+
+public:
+    virtual void addToField() = 0;
+
+    virtual void update(float time) = 0;
 
     virtual void takeDamage(float damage) = 0;
 
     virtual void wither() = 0;
-
-    virtual void addToField() = 0;
 
     virtual sf::FloatRect getFloatRect() = 0;
 
     virtual CharacterFaction getCharacterFaction() = 0;
 
     virtual ~UnitModel() = default;
+
+    virtual void setOffset(float x, float y) {
+        this->offset.x = x;
+        this->offset.y = y;
+        animationManager->setPosition(coords.x - offset.x, coords.y - offset.y + size.y);
+    }
 
     void collision(int dir, std::vector<Object> && objects) {
         auto unitRect = getFloatRect();
@@ -110,5 +127,9 @@ public:
                 break;
             }
         }
+    }
+
+    const std::unique_ptr<AnimationManager> & getAnimationManager() override {
+        return animationManager;
     }
 };
