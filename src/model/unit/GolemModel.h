@@ -12,7 +12,7 @@ class GolemModel : public NpcModel {
     float damagedTime = 0;
     bool isDamaged = false;
 
-    float health = 100;
+    float health = 300;
     CharacterFaction faction = CharacterFaction::Human;
     float speed = 0.02;
 

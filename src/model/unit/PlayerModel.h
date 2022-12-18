@@ -14,7 +14,7 @@ class PlayerModel : public UnitModel, public std::enable_shared_from_this<Player
     float direction = -M_PI_2;
 
     float maxHealth = 150;
-    float maxMana = 10000;
+    float maxMana = 200;
     float health = maxHealth;
     float mana = maxMana;
     CharacterFaction faction = CharacterFaction::Player;
@@ -83,7 +83,7 @@ public:
         }
 
         if (mana > maxMana) mana = maxMana;
-        mana += 0.01;
+        mana += 0.02;
 
         float k = ifOnPath();
         coords.x += dx * time * k;

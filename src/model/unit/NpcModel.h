@@ -29,7 +29,6 @@ protected:
     ) {
         for (const auto & level: healthPotions) {
             float angle = float(std::rand() % int(3.14 * 100)) / 100;
-            std::cout << angle << " a" << std::endl;
             float x = float(coords.x + size.x / 2) + 16 * cos(angle);
             float y = float(coords.y + size.y / 2) + 16 * sin(angle);
             auto healthPotion = std::make_shared<HealthPotion>(
@@ -40,7 +39,6 @@ protected:
         }
         for (const auto & level: manaPotions) {
             float angle = std::rand() % int(3.14 * 100) / 100;
-            std::cout << angle << " a" << std::endl;
             float x = float(coords.x + size.x / 2) + 16 * cos(angle);
             float y = float(coords.y + size.y / 2) + 16 * sin(angle);
             auto manaPotion = std::make_shared<ManaPotion>(
