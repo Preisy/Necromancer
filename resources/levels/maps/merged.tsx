@@ -12,7 +12,7 @@ tileheight = "32"
 tilecount = "512"
 columns = "16" >
     < image
-source = "D:/C/3sem_cpp/informatics/lab4/resources/levels/maps/merged.png"
+source = "D:\C\3sem_cpp\Necromancer\resources\levels\maps\merged.png"
 width = "512"
 height = "1024" / >
     < /tileset>

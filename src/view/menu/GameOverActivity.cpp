@@ -3,7 +3,7 @@
 #include "controller/FieldController.h"
 
 GameOverActivity::GameOverActivity()
-        : restartButton("Start    ", [this]() { start(); }, 300),
+        : restartButton("Restart    ", [this]() { start(); }, 300),
           exitButton("Exit", [this]() { exit(); }, 400) {
     gameOverImageTexture.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\game_over_image.png)");
     gameOverImageSprite.setTexture(gameOverImageTexture);

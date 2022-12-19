@@ -1,10 +1,24 @@
 #include <iostream>
 
+class A {
+public:
+    virtual ~A() = default;
+};
+
+class B : public A {
+
+};
+
 int main() {
-    for (int i = 0; i < 100; ++i) {
-        float angle = float(std::rand() % int(3.14 * 100)) / 100;
-        std::cout << angle << std::endl;
-    }
+    int* a;
+    std::cout << sizeof(a) << std::endl;
+
+
+//    B b = B();
+//    A &a = b;
+
+//    B& c = dynamic_cast<B&>(a);
+
 
 
     return 0;

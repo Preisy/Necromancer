@@ -10,6 +10,9 @@ class MainMenuActivity : public MenuActivity {
     sf::Texture gameOverImageTexture;
     sf::Sprite gameOverImageSprite;
 
+    sf::Font font;
+    sf::Text necromancerText;
+
     ButtonView startButton;
     ButtonView exitButton;
 

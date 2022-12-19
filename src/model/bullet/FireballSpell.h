@@ -34,8 +34,8 @@ public:
             float damage = 25
     ) : fieldModel(fieldModel), senderFaction(senderFaction), delay(delayToStart), damage(damage) {
         animationManager->loadFromXML(
-                R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.xml)",
-                R"(D:\C\3sem_cpp\informatics\lab4\resources\spells\fireball.png)"
+                R"(D:\C\3sem_cpp\Necromancer\resources\spells\fireball.xml)",
+                R"(D:\C\3sem_cpp\Necromancer\resources\spells\fireball.png)"
         );
         animationManager->rotate(-direction);
         dx = speed * cos(direction);

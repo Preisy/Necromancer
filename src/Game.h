@@ -9,6 +9,7 @@
 #include "utils/activity/ActivityManager.h"
 #include "config.h"
 #include "view/level/LevelActivity.h"
+#include "view/menu/MainMenuActivity.h"
 #include "data/Repository.h"
 
 class Game {
@@ -27,6 +28,7 @@ public:
         configureInjecting<FieldController>(1);
 
         activityManager->push(std::make_unique<LevelActivity>());
+        activityManager->push(std::make_unique<MainMenuActivity>());
     }
 
     void handleEvent(sf::Event & event) {

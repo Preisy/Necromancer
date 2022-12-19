@@ -27,7 +27,7 @@ public:
             const std::shared_ptr<UnitModel> & playerModel
     ) : fieldId(modelId) {
         lvl.LoadFromFile(
-                R"(D:\C\3sem_cpp\informatics\lab4\resources\levels\maps\field)" + std::to_string(modelId) + ".xml"
+                R"(D:\C\3sem_cpp\Necromancer\resources\levels\maps\field)" + std::to_string(modelId) + ".xml"
         );
         for (auto & item: lvl.getLayers()) {
             tileCoords.emplace_back();
