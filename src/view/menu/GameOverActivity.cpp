@@ -2,16 +2,9 @@
 
 #include "controller/FieldController.h"
 
-
 GameOverActivity::GameOverActivity()
-        : restartButton("Restart    ", [this]() { restart(); }, 300),
+        : restartButton("Start    ", [this]() { start(); }, 300),
           exitButton("Exit", [this]() { exit(); }, 400) {
-    backgroundTexture.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\game_over_background.png)");
-    backgroundSprite.setTexture(backgroundTexture);
-    backgroundMask.setFillColor(sf::Color(0x00000088));
-    backgroundMask.setPosition(0, 0);
-    backgroundMask.setSize({windowWidth, windowHeight});
-
     gameOverImageTexture.loadFromFile(R"(D:\C\3sem_cpp\Necromancer\resources\game_over_image.png)");
     gameOverImageSprite.setTexture(gameOverImageTexture);
     float k = float(0.5 * windowWidth) / (float) gameOverImageSprite.getTextureRect().width;
@@ -19,10 +12,9 @@ GameOverActivity::GameOverActivity()
 
     gameOverImageSprite.setPosition(
             {float(windowWidth / 2 - gameOverImageSprite.getLocalBounds().width * k / 2), 30});
-
 }
 
-void GameOverActivity::restart() {
+void GameOverActivity::start() {
     Injected<FieldController> f;
     f->resetGame();
     configureInjecting<FieldController>(1);
@@ -34,11 +26,14 @@ void GameOverActivity::exit() {
 }
 
 void GameOverActivity::handleState() {
+    MenuActivity::handleState();
     restartButton.handleState();
     exitButton.handleState();
 }
 
+
 void GameOverActivity::handleEvent(sf::Event & event) {
+    MenuActivity::handleEvent(event);
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
             activityManager->pop();
@@ -48,13 +43,12 @@ void GameOverActivity::handleEvent(sf::Event & event) {
     exitButton.handleEvent(event);
 }
 
-void GameOverActivity::update(float time) {}
-
 void GameOverActivity::draw(float time) {
-    window->draw(backgroundSprite);
-    window->draw(backgroundMask);
+    MenuActivity::draw(time);
     window->draw(gameOverImageSprite);
 
     restartButton.draw();
     exitButton.draw();
 }
+
+

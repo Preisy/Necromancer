@@ -5,7 +5,7 @@
 //#include <cmath>
 
 #include "utils/activity/ActivityManager.h"
-#include "view/gameOverActivity/GameOverActivity.h"
+#include "view/menu/GameOverActivity.h"
 #include "data/Repository.h"
 #include "model/FieldModel.h"
 #include "model/unit/PlayerModel.h"
@@ -76,6 +76,14 @@ private:
 
 public:
     void handleEvent(sf::Event & event) {
+        if (!playerModel->isAlive()) {
+            if (event.type == sf::Event::KeyPressed ||
+                event.type == sf::Event::MouseButtonPressed) {
+                activityManager->push(std::make_unique<GameOverActivity>());
+            }
+            return;
+        }
+
         if (event.type == sf::Event::MouseButtonPressed) {
             if (event.mouseButton.button == sf::Mouse::Left) {
                 playerModel->fire();
@@ -165,12 +173,16 @@ public:
     }
 
     void update(float time) {
-        fieldModel->update(time);
-
         if (!playerModel->isAlive()) {
-            activityManager->push(std::make_unique<GameOverActivity>());
+            for (auto & unit: fieldModel->getUnitModels()) {
+                if (std::dynamic_pointer_cast<PlayerModel>(unit) == nullptr) {
+                    unit->getAnimationManager()->pause();
+                }
+            }
             return;
         }
+
+        fieldModel->update(time);
 
         auto playerCoords = playerModel->getCoords();
         auto playerSize = playerModel->getSize();
