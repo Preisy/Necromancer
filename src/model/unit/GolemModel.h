@@ -13,7 +13,6 @@ class GolemModel : public NpcModel {
     bool isDamaged = false;
 
     float health = 600;
-    CharacterFaction faction = CharacterFaction::Human;
     float speed = 0.02;
 
     bool didHit = false;
@@ -24,7 +23,7 @@ public:
     GolemModel(
             sf::Vector2f start,
             const std::shared_ptr<FieldModel> & fieldModel
-    ) : NpcModel("golem", fieldModel) {
+    ) : NpcModel("golem", fieldModel, CharacterFaction::Human) {
         size = {70, 95};
         sizeReduction = {0, 20};
         coords = start;
@@ -42,6 +41,12 @@ public:
         );
     }
 
+    void revive(CharacterFaction characterFaction) override {
+        NpcModel::revive(characterFaction);
+        health = 600;
+    }
+
+
     void update(float time) override {
         if (isDamaged) {
             damagedTime -= time;
@@ -53,13 +58,6 @@ public:
             animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color::White);
         }
 
-
-        auto playerCoords = getPlayerCoords();
-        auto r = sqrt(
-                pow((playerCoords.left + playerCoords.width / 2) - (coords.x + size.x / 2), 2) +
-                pow((playerCoords.top + playerCoords.height / 2) - (coords.y + size.y / 2), 2)
-        );
-
         bool didStartHitting =
                 animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "hit_";
         bool didEndHitting = !animationManager->animList[animationManager->currentAnim].isPlaying;
@@ -70,29 +68,51 @@ public:
                 didHit = true;
                 hit();
             }
-
             return;
         } else if (didStartHitting && didEndHitting) {
             didHit = true;
             animationManager->play();
         }
 
-        if (r >= 400) {
+
+        auto [unitCoords, r] = getNearestUnitCoords([this](CharacterFaction unitFaction){
+            return unitFaction != faction;
+        });
+
+
+        if (unitCoords == sf::FloatRect() || r >= 400) {
             animationManager->set("stay_s");
+
+            if (faction == CharacterFaction::Player) {
+                auto playerCoords = getPlayerCoords();
+                float pR = sqrt(
+                        pow(playerCoords.left + playerCoords.width / 2 - (coords.x + size.x / 2), 2) +
+                        pow(playerCoords.top + playerCoords.height / 2 - (coords.y + size.y / 2), 2)
+                );
+                if (pR >= 200) {
+                    move(time, playerCoords, speed);
+                    animationManager->set("walk_" + chooseDirection(playerCoords));
+                }
+            }
             return;
         }
 
+
+        interactWithUnit(unitCoords, r, time);
+    }
+
+    void interactWithUnit(sf::FloatRect unitCoords, float r, float time) {
         if (r <= 93) {
-            animationManager->set("hit_" + chooseDirection(playerCoords));
+            animationManager->set("hit_" + chooseDirection(unitCoords));
             animationManager->loop(false);
             didHit = false;
             return;
         }
 
-        move(time, playerCoords, speed);
+        move(time, unitCoords, speed);
 
 
-        animationManager->set("walk_" + chooseDirection(playerCoords));
+        animationManager->set("walk_" + chooseDirection(unitCoords));
     }
 
 private:
@@ -141,9 +161,7 @@ public:
         return {coords.x, coords.y, size.x, size.y};
     }
 
-    CharacterFaction getCharacterFaction() override {
-        return CharacterFaction::Human;
-    }
+
 
     const std::unique_ptr<AnimationManager> & getAnimationManager() override {
         return animationManager;

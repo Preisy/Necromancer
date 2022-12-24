@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="96">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="97">
  <tileset firstgid="1" source="merged.tsx"/>
  <layer id="1" name="Слой тайлов 1" width="30" height="25">
   <data>
@@ -2321,5 +2321,8 @@
   <object id="74" name="path" x="181.5" y="376" width="194" height="47"/>
   <object id="75" name="path" x="121" y="185" width="252" height="47"/>
   <object id="76" name="path" x="427.5" y="182" width="268" height="49"/>
+  <object id="96" name="golem" x="380.567" y="314.44">
+   <point/>
+  </object>
  </objectgroup>
 </map>

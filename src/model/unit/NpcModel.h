@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <functional>
 #include "UnitModel.h"
 
 #include "model/interactiveGameObject/HealthPotion.h"
@@ -11,11 +12,13 @@ class NpcModel : public UnitModel, public std::enable_shared_from_this<NpcModel>
 protected:
     std::shared_ptr<FieldModel> fieldModel;
     std::list<std::shared_ptr<UnitModel>>::iterator fieldPos;
+    CharacterFaction faction;
 
     explicit NpcModel(
             const std::string & spriteListName,
-            const std::shared_ptr<FieldModel> & fieldModel
-    ) : UnitModel(spriteListName), fieldModel(fieldModel) {}
+            const std::shared_ptr<FieldModel> & fieldModel,
+            CharacterFaction characterFaction
+    ) : UnitModel(spriteListName), fieldModel(fieldModel), faction(characterFaction) {}
 
 public:
     void addToField() override {
@@ -48,7 +51,35 @@ protected:
             manaPotion->addToField(fieldModel);
         }
 
-        fieldModel->eraseUnit(fieldPos);
+        fieldModel->eraseDeadUnit(fieldPos);
+    }
+
+public:
+    void revive(CharacterFaction characterFaction) override {
+        auto flag = true;
+        for (const auto & deadUnitModel: fieldModel->getDeadUnitModels()) {
+            if (deadUnitModel.get() == this) {
+                flag = false;
+            }
+        }
+        if (flag) {
+            std::cout << "i cant revive" << std::endl;
+            return;
+        }
+
+        faction = characterFaction;
+
+        std::list<std::shared_ptr<UnitModel>>::iterator it;
+        it = fieldModel->addUnit(shared_from_this());
+        fieldModel->eraseDeadUnit(fieldPos);
+        fieldPos = it;
+        animationManager->set("stay_s");
+        animationManager->play();
+        animationManager->loop(false);
+        animationManager->setPosition(
+                animationManager->getPosition().x,
+                animationManager->getPosition().y
+        );
     }
 
 private:
@@ -103,6 +134,24 @@ protected:
         return "";
     }
 
+    std::pair<sf::FloatRect, float> getNearestUnitCoords(const std::function<bool(CharacterFaction)>& comp) {
+        std::pair<sf::FloatRect, float> res = {{}, std::numeric_limits<float>::max()};
+        for (const auto & unit: fieldModel->getUnitModels()) {
+            if (unit != nullptr && comp(unit->getCharacterFaction())) {
+                auto unitCoords = unit->getFloatRect();
+                float r = sqrt(
+                        pow(unitCoords.left + unitCoords.width / 2 - (coords.x + size.x / 2), 2) +
+                        pow(unitCoords.top + unitCoords.height / 2 - (coords.y + size.y / 2), 2)
+                );
+                if (r < res.second) {
+                    res.first = unit->getFloatRect();
+                    res.second = r;
+                }
+            }
+        }
+        return res;
+    };
+
     sf::FloatRect getPlayerCoords() {
         for (const auto & unit: fieldModel->getUnitModels()) {
             if (std::dynamic_pointer_cast<PlayerModel>(unit) != nullptr) {
@@ -111,4 +160,8 @@ protected:
         }
         throw std::runtime_error("player not found while HumanModel::update()");
     };
+
+    CharacterFaction getCharacterFaction() override {
+        return faction;
+    }
 };

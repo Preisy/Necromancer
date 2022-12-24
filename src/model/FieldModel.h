@@ -131,6 +131,11 @@ public:
         return deadUnitModels.insert(deadUnitModels.end(), deadUnitModel);
     }
 
+    auto eraseDeadUnit(std::list<std::shared_ptr<UnitModel>>::iterator iter) {
+        *iter = nullptr;
+        return 1;
+    }
+
     auto addBullet(const std::shared_ptr<BulletModel> & bulletModel) {
         return bulletModels.insert(bulletModels.end(), bulletModel);
     }

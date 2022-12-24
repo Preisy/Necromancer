@@ -6,8 +6,8 @@
 #include "utils/animation/AnimationManager.h"
 #include "model/ObjectModel.h"
 #include "utils/level/Object.h"
-
 #include "CharacterFaction.h"
+
 
 class UnitModel : public ObjectModel {
 protected:
@@ -36,6 +36,8 @@ public:
     virtual void takeDamage(float damage) = 0;
 
     virtual void wither() = 0;
+
+    virtual void revive(CharacterFaction characterFaction) = 0;
 
     virtual sf::FloatRect getFloatRect() = 0;
 

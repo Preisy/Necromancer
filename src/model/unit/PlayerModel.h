@@ -13,8 +13,8 @@ class PlayerModel : public UnitModel, public std::enable_shared_from_this<Player
     std::shared_ptr<FieldModel> fieldModel = nullptr;
     float direction = -M_PI_2;
 
-    float maxHealth = 150;
-    float maxMana = 200;
+    float maxHealth = 1500;
+    float maxMana = 2000;
     float health = maxHealth;
     float mana = maxMana;
     CharacterFaction faction = CharacterFaction::Player;
@@ -148,6 +148,8 @@ public:
     }
 
     void wither() override {}
+
+    void revive(CharacterFaction characterFaction) override {}
 
 
     void setDirection(sf::Vector2i mousePos) {

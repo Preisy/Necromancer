@@ -11,7 +11,6 @@ class HumanModel : public NpcModel {
     bool isDamaged = false;
 
     float health = 100;
-    CharacterFaction faction = CharacterFaction::Human;
     float speed = 0.02;
     float fireInterval = 2000;
     float timeToShot = fireInterval;
@@ -20,7 +19,7 @@ public:
     HumanModel(
             sf::Vector2f start,
             const std::shared_ptr<FieldModel> & field
-    ) : NpcModel("human", field) {
+    ) : NpcModel("human", field, CharacterFaction::Human) {
         fieldModel = field;
         size = {32, 50};
         sizeReduction = {0, 20};
@@ -32,6 +31,11 @@ public:
                 {HealthPotion::Level::Junior, HealthPotion::Level::Junior},
                 {ManaPotion::Level::Junior, ManaPotion::Level::Junior}
         );
+    }
+
+    void revive(CharacterFaction characterFaction) override {
+        NpcModel::revive(characterFaction);
+        health = 100;
     }
 
 
@@ -46,40 +50,59 @@ public:
             animationManager->animList[animationManager->currentAnim].sprite.setColor(sf::Color::White);
         }
 
-        auto playerCoords = getPlayerCoords();
-        float r = sqrt(
-                pow(playerCoords.left + playerCoords.width / 2 - (coords.x + size.x), 2) +
-                pow(playerCoords.top + playerCoords.height / 2 - (coords.y + size.y), 2)
-        );
 
+        auto isCurrentAnimIsFire = animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
+        auto isFireAnimationPlay =
+                animationManager->isPlaying() && isCurrentAnimIsFire;
+        if (isCurrentAnimIsFire && !animationManager->isPlaying()) {
+            animationManager->set("stay_s");
+            return;
+        }
+
+        auto [unitCoords, r] = getNearestUnitCoords([this](CharacterFaction unitFaction){
+            return unitFaction != faction;
+        });
+
+
+        if (unitCoords == sf::FloatRect() || r >= 400) {
+            animationManager->set("stay_s");
+
+            if (faction == CharacterFaction::Player) {
+                auto playerCoords = getPlayerCoords();
+                float pR = sqrt(
+                        pow(playerCoords.left + playerCoords.width / 2 - (coords.x + size.x / 2), 2) +
+                        pow(playerCoords.top + playerCoords.height / 2 - (coords.y + size.y / 2), 2)
+                );
+                if (pR >= 200) {
+                    move(time, playerCoords, speed);
+                    animationManager->set("walk_" + chooseDirection(playerCoords));
+                }
+            }
+
+            return;
+        }
+
+        interactWithUnit(unitCoords, r, time);
+    }
+
+    void interactWithUnit(sf::FloatRect unitCoords, float r, float time) {
+        fire(time, unitCoords);
 
         auto isFireAnimationPlay =
                 animationManager->isPlaying() &&
                 animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
 
-        if (r >= 400) {
-            if (!isFireAnimationPlay)
-                animationManager->set("stay_s");
-            return;
-        }
-
-        fire(time, playerCoords);
-
-        isFireAnimationPlay =
-                animationManager->isPlaying() &&
-                animationManager->currentAnim.substr(0, animationManager->currentAnim.size() - 1) == "fire_";
-
         if (r <= 200) {
             if (!isFireAnimationPlay)
-                animationManager->set("stay_" + chooseDirection(playerCoords));
+                animationManager->set("stay_" + chooseDirection(unitCoords));
             return;
         }
 
-        move(time, playerCoords, speed);
+        move(time, unitCoords, speed);
 
 
         if (!isFireAnimationPlay) {
-            animationManager->set("walk_" + chooseDirection(playerCoords));
+            animationManager->set("walk_" + chooseDirection(unitCoords));
             animationManager->play();
         }
     }
@@ -129,9 +152,5 @@ public:
 
     sf::FloatRect getFloatRect() override {
         return {coords.x, coords.y, size.x, size.y};
-    }
-
-    CharacterFaction getCharacterFaction() override {
-        return faction;
     }
 };

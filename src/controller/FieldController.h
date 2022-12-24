@@ -101,6 +101,13 @@ public:
                         interactive.second->wither();
                 }
             }
+            if (event.key.code == sf::Keyboard::R) {
+                auto interactive = getNearestInteractive<UnitModel>(fieldModel->getDeadUnitModels());
+                if (interactive.first <= 100) {
+                    if (interactive.second != nullptr)
+                        interactive.second->revive(CharacterFaction::Player);
+                }
+            }
             if (event.key.code == sf::Keyboard::E) {
                 auto interactive = getNearestInteractive<InteractiveGameObject>(fieldModel->getInteractiveGameObjects());
                 if (interactive.first <= 100) {
