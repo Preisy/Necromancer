@@ -31,7 +31,7 @@ public:
         if (playerModel == nullptr)
             throw std::runtime_error("player does not exist while field controller");
 
-        setNewField(fieldId);
+        setNewField(fieldId, 0);
     }
 
     void resetGame() {
@@ -48,13 +48,21 @@ private:
         fieldRepository.insertOrAssign(fieldId, fieldModel);
     }
 
-    void setNewField(int fieldId) {
+    void setNewField(int fieldId, int prevField) {
         fieldModel = fieldRepository.find(fieldId);
         if (fieldModel != nullptr) {
+//            playerModel->setField(fieldModel);
+            auto playerCoords = fieldModel->getPlayerCoords(prevField);
+            playerModel->setCoords(playerCoords);
             playerModel->setField(fieldModel);
+//            playerModel->addToField();
+
         } else {
-            fieldModel = std::make_shared<FieldModel>(fieldId, playerModel);
+            fieldModel = std::make_shared<FieldModel>(fieldId);
+            auto playerCoords = fieldModel->getPlayerCoords(prevField);
+            playerModel->setCoords(playerCoords);
             playerModel->setField(fieldModel);
+            playerModel->addToField();
 
             for (const auto & object: fieldModel->getLevel().GetObjects("human")) {
                 std::make_shared<HumanModel>(
@@ -212,7 +220,33 @@ public:
         if (Object obj = isIntersectedWithInteractive("field"); !obj.name.empty()) {
             int fieldId = obj.GetPropertyInt("fieldId");
             saveField(fieldModel->getFieldId());
-            setNewField(fieldId);
+            setNewField(fieldId, fieldModel->getFieldId());
+        }
+
+        bool isAnyEnemyAlive = false;
+        for (const auto & unitModel: fieldModel->getUnitModels()) {
+            if (unitModel->getCharacterFaction() != CharacterFaction::Player) {
+                isAnyEnemyAlive = true;
+                break;
+            }
+        }
+        if (fieldModel->getFieldId() == 3 && !isAnyEnemyAlive) {
+            respawnUnits();
+        }
+    }
+
+    void respawnUnits() {
+        for (const auto & object: fieldModel->getLevel().GetObjects("human")) {
+            std::make_shared<HumanModel>(
+                    sf::Vector2f(object.rect.left, object.rect.top),
+                    fieldModel
+            )->addToField();
+        }
+        for (const auto & object: fieldModel->getLevel().GetObjects("golem")) {
+            std::make_shared<GolemModel>(
+                    sf::Vector2f(object.rect.left, object.rect.top),
+                    fieldModel
+            )->addToField();
         }
     }
 

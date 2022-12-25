@@ -13,6 +13,7 @@ protected:
     std::shared_ptr<FieldModel> fieldModel;
     std::list<std::shared_ptr<UnitModel>>::iterator fieldPos;
     CharacterFaction faction;
+    int revivesCount = 0;
 
     explicit NpcModel(
             const std::string & spriteListName,
@@ -66,6 +67,11 @@ public:
             std::cout << "i cant revive" << std::endl;
             return;
         }
+        if (revivesCount >= 2) {
+            wither({}, {});
+            return;
+        }
+        revivesCount++;
 
         faction = characterFaction;
 

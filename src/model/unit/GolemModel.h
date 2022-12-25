@@ -118,6 +118,7 @@ public:
 private:
     void hit() {
         for (auto & unitModel: fieldModel->getUnitModels()) {
+            if (unitModel == nullptr) continue;
             auto unitCoords = unitModel->getFloatRect();
             auto r = sqrt(
                     pow((unitCoords.left + unitCoords.width / 2) - (coords.x + size.x / 2), 2) +
@@ -149,6 +150,10 @@ public:
                     animationManager->getPosition().x,
                     animationManager->getPosition().y
             );
+            if (revivesCount >= 1) {
+                NpcModel::wither({}, {});
+                return;
+            }
         } else {
             isDamaged = true;
             damagedTime = 500;

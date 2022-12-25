@@ -100,6 +100,7 @@ public:
         );
         for (const auto & object: objects) {
             if (object.get() == this) continue;
+            if (object.get() == nullptr) continue;
             auto objectRect = object->getFloatRect();
             if (!rect.intersects(objectRect)) continue;
 

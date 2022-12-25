@@ -13,8 +13,8 @@ class PlayerModel : public UnitModel, public std::enable_shared_from_this<Player
     std::shared_ptr<FieldModel> fieldModel = nullptr;
     float direction = -M_PI_2;
 
-    float maxHealth = 1500;
-    float maxMana = 2000;
+    float maxHealth = 15000;
+    float maxMana = 20000;
     float health = maxHealth;
     float mana = maxMana;
     CharacterFaction faction = CharacterFaction::Player;
@@ -28,12 +28,11 @@ public:
     }
 
     void setField(const std::shared_ptr<FieldModel> & fieldModel) {
-        if (fieldModel == nullptr) return;
-        coords = fieldModel->getPlayerCoords();
         this->fieldModel = fieldModel;
-        animationManager->setPosition(coords.x, coords.y + size.y);
     }
-    void addToField() override {}
+    void addToField() override {
+        fieldModel->addUnit(shared_from_this());
+    }
 
     sf::FloatRect getFloatRect() override {
         return {coords.x, coords.y, size.x, size.y};

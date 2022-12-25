@@ -32,6 +32,9 @@ public:
         }
 
         int i = currentFrame;
+        if (i > frames.size()) {
+            i = 0;
+        }
         sprite.setTextureRect(frames[i]);
         if (flip) sprite.setTextureRect(frames_flip[i]);
     }

@@ -142,6 +142,11 @@ public:
                     animationManager->getPosition().x,
                     animationManager->getPosition().y
             );
+
+            if (revivesCount >= 1) {
+                NpcModel::wither({}, {});
+                return;
+            }
         } else {
             isDamaged = true;
             damagedTime = 500;

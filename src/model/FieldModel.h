@@ -21,10 +21,11 @@ class FieldModel {
     sf::Vector2f offset = {0, 0};
     int fieldId;
 
+    sf::Vector2f playerCoords = {-1, -1};
+
 public:
     explicit FieldModel(
-            int modelId,
-            const std::shared_ptr<UnitModel> & playerModel
+            int modelId
     ) : fieldId(modelId) {
         lvl.LoadFromFile(
                 R"(D:\C\3sem_cpp\Necromancer\resources\levels\maps\field)" + std::to_string(modelId) + ".xml"
@@ -36,12 +37,6 @@ public:
             }
         }
 
-
-        auto coords = lvl.GetObject("player").rect;
-        offset.x = coords.left;
-        offset.y = coords.top;
-
-        unitModels.push_back(playerModel);
     }
 
 
@@ -78,12 +73,9 @@ public:
                 --it;
             }
         }
-
-//        std::cout << interactiveGameObjects.size() << std::endl;
-//        for (const auto & bulletModel: bulletModels) {
-//            bulletModel->update(time);
-//        }
     }
+
+
 
 
     void setOffset(float x, float y) {
@@ -113,9 +105,13 @@ public:
         }
     }
 
-    sf::Vector2f getPlayerCoords() {
-        auto rect = lvl.GetObject("player").getRect();
-        return {rect.left, rect.top};
+    sf::Vector2f getPlayerCoords(int fromField) {
+        for (auto & player : lvl.GetObjects("player")) {
+            if (player.properties["fromField"] == std::to_string(fromField)) {
+                return {player.rect.left, player.rect.top};
+            }
+        }
+        throw std::runtime_error("player coords not found");
     }
 
     auto addUnit(const std::shared_ptr<UnitModel> & unitModel) {
